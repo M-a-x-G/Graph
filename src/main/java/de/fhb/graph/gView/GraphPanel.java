@@ -2,7 +2,9 @@ package de.fhb.graph.gView;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Point;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -72,6 +74,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
     private void paintVertex(Vertex v, Graphics g) {
         int radius = Config.VERTEXRADIUS;
+        enableAA(g);
         Color color = g.getColor();
         int x = v.getLocation().x - radius;
         int y = v.getLocation().y - radius;
@@ -87,11 +90,17 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     private void paintEdge(Edge e, Graphics g) {
         Color color = g.getColor();
         Color newColor = (e.isMarker() ? Config.ACTIVEVERTEXCOLOUR : Config.EDGECOLOUR);
+        enableAA(g);
         g.setColor(newColor);
         Point from = e.getfrom().getLocation();
         Point to = e.getTo().getLocation();
         g.drawLine(from.x, from.y, to.x, to.y);
         g.setColor(color);
+    }
+
+    private void enableAA(Graphics g){
+        ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     public void delete() {

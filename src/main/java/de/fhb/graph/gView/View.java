@@ -1,6 +1,7 @@
 package de.fhb.graph.gView;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -29,13 +30,11 @@ public class View extends JPanel  implements Observer{
 		this.add(graphPanel,BorderLayout.CENTER);
 		buttonPanel = new ButtonPanel(frame, graphPanel, this, graph);
 		this.add(buttonPanel, BorderLayout.NORTH);		
-
-
 		actionPanel = new ModePanel(this, graphPanel);
 		this.add(actionPanel,BorderLayout.WEST);
 
 		infoPanel = new InfoPanel();
-		this.add(infoPanel,BorderLayout.SOUTH);
+        this.add(infoPanel,BorderLayout.SOUTH);
 	}
 
 	@Override
@@ -54,14 +53,13 @@ public class View extends JPanel  implements Observer{
 		graph.addObserver(this);
 		repaint();
 	}
-	
+
+    public void deleteGraph(){
+        graphPanel.deleteGraph();
+    }
+
 	public void clear(){
 		graphPanel.delete();
 	}
-
-
-
-	
-	
 
 }

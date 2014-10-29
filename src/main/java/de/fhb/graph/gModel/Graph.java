@@ -47,7 +47,14 @@ public class Graph extends Observable implements Serializable{
 		changed = true;
 	}
 	
-	
+
+    public void deleteGraph(){
+        vertices.clear();
+        edges.clear();
+        setChanged();
+        notifyObservers();
+    }
+
 	public void removeVertex(Vertex v){
 		vertices.remove(v);
 		HashSet<Edge> toRemove = new HashSet<Edge>();

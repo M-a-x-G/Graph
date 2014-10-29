@@ -6,7 +6,7 @@ import de.fhb.graph.gController.Menuleiste;
 import de.fhb.graph.gModel.Graph;
 
 import javax.swing.JFrame;
-
+import javax.swing.WindowConstants;
 
 
 public class GFrame extends JFrame  {
@@ -17,7 +17,7 @@ public class GFrame extends JFrame  {
 	
 	public GFrame()  {
 		super("Graph");
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		Graph g = new Graph();
 		View view = new View(g,this);
 		

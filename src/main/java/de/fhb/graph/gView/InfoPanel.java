@@ -1,5 +1,6 @@
 package de.fhb.graph.gView;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
@@ -18,9 +19,10 @@ public class InfoPanel extends JPanel {
 		textField = new JTextField("");
 		textField.setEditable(false);
 		setLayout(new FlowLayout());
-		this.setBorder(new TitledBorder("Info Panel"));
-		add(textField,FlowLayout.LEFT);
-	}
+		setBorder(new TitledBorder("Info Panel"));
+        add(textField, FlowLayout.LEFT);
+
+    }
 	
 	public void sendInfo(String text){
 		textField.setText(text);

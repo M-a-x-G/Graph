@@ -8,7 +8,7 @@ public class Config {
 	public  static final Color ACTIVEVERTEXCOLOUR = Color.RED;
 	public  static final Color EDGECOLOUR = Color.darkGray;
 	public static final Color[] COLOURS = {Color.darkGray, Color.RED, Color.BLUE, Color.GREEN, Color.YELLOW};
-	public  static final int VERTEXRADIUS = 10;
+	public  static final int VERTEXRADIUS = 5;
 	
 	public static final String FILENAMESUFFIX = ".grf";
 	

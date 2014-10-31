@@ -26,12 +26,20 @@ public class AdjacencyList extends HashMap<Vertex,HashSet<Edge>> {
 	}
 	
 	public HashSet<Vertex> getNeighboursOf(Vertex v){
-		HashSet<Vertex> result = new HashSet<Vertex>();
-		for (Edge e : get(v)){
-			if(e.getfrom().equals(v) && !result.contains(e.getTo())) result.add(e.getTo());
-			if(e.getTo().equals(v) && !result.contains(e.getfrom())) result.add(e.getfrom());
-		}
-		return result;
+	    HashSet<Vertex> result = new HashSet<Vertex>();
+
+        if(get(v) != null){
+		    for (Edge e : get(v)){
+			    if(e.getfrom().equals(v) && !result.contains(e.getTo())){
+                    result.add(e.getTo());
+                }
+			    if(e.getTo().equals(v) && !result.contains(e.getfrom())){
+                    result.add(e.getfrom());
+                }
+		    }
+        }
+
+	    return result;
 	}
 
 }

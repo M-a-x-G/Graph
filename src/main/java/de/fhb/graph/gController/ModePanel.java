@@ -8,8 +8,10 @@ import de.fhb.graph.gView.View;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.border.TitledBorder;
 
 public class ModePanel extends JPanel implements ActionListener {
@@ -23,6 +25,7 @@ public class ModePanel extends JPanel implements ActionListener {
 	
 	View view;
 	GraphPanel graphPanel;
+	ButtonGroup buttonGroup;
 	
 	
 	public ModePanel(View view, GraphPanel graphPanel) {
@@ -32,21 +35,22 @@ public class ModePanel extends JPanel implements ActionListener {
 		
 		setLayout( new BoxLayout(this, BoxLayout.Y_AXIS) );
 		setBorder(new TitledBorder("Aktionen"));
-		addButton(MARK);
-		addButton(NEWVERTEX);
-		addButton(NEWEDGE);
-
+		buttonGroup = new ButtonGroup();
+		addRButton(MARK);
+		addRButton(NEWVERTEX);
+		addRButton(NEWEDGE);
+		//select first radiobutton
+		buttonGroup.setSelected(buttonGroup.getElements().nextElement().getModel(), true);
 	}
-	
-	
-	private void addButton(String text){
-		JButton button = new JButton(text);
-		button.addActionListener(this);
+
+	private void addRButton(String text){
+		JRadioButton radioButton = new JRadioButton(text);
+		radioButton.addActionListener(this);
 		add(Box.createVerticalStrut(5));
-		add(button);	
+		buttonGroup.add(radioButton);
+		add(radioButton);
 		add(Box.createVerticalStrut(2));
 	}
-
 
 	@Override
 	public void actionPerformed(ActionEvent e) {

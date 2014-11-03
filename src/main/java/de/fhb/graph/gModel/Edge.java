@@ -9,6 +9,7 @@ public class Edge implements Serializable {
 	Vertex from;
 	Vertex to;
 	int weight;
+    int color;
 	boolean marker;
 	Graph g;
 	

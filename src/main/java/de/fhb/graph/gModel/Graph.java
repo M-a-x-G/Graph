@@ -13,14 +13,17 @@ public class Graph extends Observable implements Serializable{
 	AdjacencyList adjacencyList;
 	int actualVertexNumber;
 	boolean changed;
+    boolean weightedGraph;
 
-	public Graph() {
+
+    public Graph() {
 		super();
 		this.vertices = new HashSet<Vertex>();
 		this.edges = new HashSet<Edge>();
 		this.adjacencyList = new AdjacencyList();
 		actualVertexNumber = 0;
 		changed = false;
+        weightedGraph = false;
 	}
 	
 
@@ -84,7 +87,9 @@ public class Graph extends Observable implements Serializable{
 		return e;
 	}
 
-
+    /**
+     * returns all vertices of this graph
+     */
 	public HashSet<Vertex> getVertices() {
 		return vertices;
 	}
@@ -106,8 +111,12 @@ public class Graph extends Observable implements Serializable{
 	}
 	
 	public void resetNonPersistentProps(){
-		for (Vertex v : vertices) v.resetNonPersistentProps();
-		for (Edge e : edges) e.resetNonPersistentProps();
+		for (Vertex v : vertices){
+            v.resetNonPersistentProps();
+        }
+		for (Edge e : edges){
+            e.resetNonPersistentProps();
+        }
 		setChanged();
 		notifyObservers();		
 	}
@@ -117,7 +126,15 @@ public class Graph extends Observable implements Serializable{
 		notifyObservers();		
 	}
 
+    public void setWeightedGraph(boolean weightedGraph) {
+        this.weightedGraph = weightedGraph;
+        setChanged();
+        notifyObservers();
+    }
 
+    public boolean isWeightedGraph() {
+        return weightedGraph;
+    }
 
 
 }

@@ -95,7 +95,13 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         Point from = e.getfrom().getLocation();
         Point to = e.getTo().getLocation();
         g.drawLine(from.x, from.y, to.x, to.y);
+        //display weights only if graph is a weighted one
+        if(graph.isWeightedGraph()){
+            g.drawString(Integer.toString(e.getWeight()), 5 + (from.x + to.x) / 2, 5 + (from.y + to.y) / 2);
+        }
         g.setColor(color);
+
+
     }
 
     private void enableAA(Graphics g){
@@ -104,8 +110,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     public void delete() {
-        if (markedVertex != null) graph.removeVertex(markedVertex);
-        if (markedEdge != null) graph.removeEdge(markedEdge);
+        if (markedVertex != null){
+            graph.removeVertex(markedVertex);
+        }
+        if (markedEdge != null){
+            graph.removeEdge(markedEdge);
+        }
     }
 
 
@@ -124,26 +134,37 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         if (markedVertex != null) {
             markedVertex.setMarked(false);
             markedVertex = null;
+            view.infoPanel.Unmarked();
         }
         if (markedEdge != null) {
             markedEdge.setMarker(false);
             markedEdge = null;
+            view.infoPanel.Unmarked();
+
         }
         markedVertex = null;
         markedEdge = null;
         if (mode == GraphPanel.MARK) {
             Vertex v = mouseMeetsVertex(mousePoint);
             markedVertex = v;
-            if (v != null) v.setMarked(true);
+            if (v != null){
+                v.setMarked(true);
+                view.infoPanel.VertexMarked(v);
+
+            }
             else {
                 Edge edge = mouseMeetsEdge(mousePoint);
                 markedEdge = edge;
-                if (edge != null) edge.setMarker(true);
+                if (edge != null){
+                    edge.setMarker(true);
+                    view.infoPanel.EdgeMarked(edge);
+                }
             }
         }
         if (mode == GraphPanel.NEWVERTEX) {
             graph.addVertex(mousePoint);
         }
+        view.revalidate();
         view.repaint();
     }
 

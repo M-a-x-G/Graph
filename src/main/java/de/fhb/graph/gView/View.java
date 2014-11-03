@@ -1,7 +1,6 @@
 package de.fhb.graph.gView;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -34,11 +33,13 @@ public class View extends JPanel  implements Observer{
 		this.add(actionPanel,BorderLayout.WEST);
 
 		infoPanel = new InfoPanel();
+        this.infoPanel.setPreferredSize(new Dimension(80, 80));
         this.add(infoPanel,BorderLayout.SOUTH);
 	}
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
+        revalidate();
 		repaint();
 		
 	}

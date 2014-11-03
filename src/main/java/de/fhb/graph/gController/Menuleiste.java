@@ -11,13 +11,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.JFileChooser;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JOptionPane;
-import javax.swing.KeyStroke;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import de.fhb.graph.gModel.Graph;
@@ -142,6 +136,10 @@ public class Menuleiste extends JMenuBar {
         };
         editMenu.add(deleteGraphAction);
 
+
+
+
+
 		/*
 		 * -------------- Edit Menu: Reset Action
 		 */
@@ -157,6 +155,28 @@ public class Menuleiste extends JMenuBar {
             }
         };
         editMenu.add(resetAction);
+
+
+        /*
+		 * -------------- Edit Menu: Reset Graph
+		 */
+        AbstractAction graphIsWeightedAction = new AbstractAction() {
+            {
+                putValue(Action.NAME, "Weighted Graph?");
+                if(graph.isWeightedGraph())
+                {
+//                    putValue(Action.SMALL_ICON, );
+                }
+
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                toggleWeightedGraph();
+            }
+        };
+        editMenu.add(graphIsWeightedAction);
+
 
 		/*
 		 * -------------- Algorithms Menu: Find Components Action
@@ -256,7 +276,6 @@ public class Menuleiste extends JMenuBar {
         saveToFile();
     }
 
-
     private void exit() {
         int answer = 0;
         if (graph.isChanged())
@@ -270,5 +289,10 @@ public class Menuleiste extends JMenuBar {
         frame.dispose();
     }
 
-
+    /**
+     * Toggles wether the graph is a weighted graph or not
+     */
+    private void toggleWeightedGraph(){
+        graph.setWeightedGraph(!graph.isWeightedGraph());
+    }
 }

@@ -3,7 +3,10 @@ apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'application'
 sourceCompatibility = 1.8
+mainClassName = "de.fhb.graph.gView.GFrame"
 version = '1.0'
+
+
 
 jar {
     manifest {

@@ -1,10 +1,13 @@
 package de.fhb.graph.gView;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -100,9 +103,28 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
             g.drawString(Integer.toString(e.getWeight()), 5 + (from.x + to.x) / 2, 5 + (from.y + to.y) / 2);
         }
         g.setColor(color);
-
-
     }
+
+    private void paintFatEdge(Edge e, Graphics g, int fatness) {
+        Color color = g.getColor();
+        Color newColor = (e.isMarker() ? Config.ACTIVEVERTEXCOLOUR : Config.EDGECOLOUR);
+        Graphics2D graphics2D = (Graphics2D) g;
+        Stroke originStroke = graphics2D.getStroke();
+        graphics2D.setStroke(new BasicStroke(fatness, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+        enableAA(g);
+        g.setColor(newColor);
+        Point from = e.getfrom().getLocation();
+        Point to = e.getTo().getLocation();
+
+                g.drawLine(from.x, from.y, to.x, to.y);
+        //display weights only if graph is a weighted one
+        if(graph.isWeightedGraph()){
+            g.drawString(Integer.toString(e.getWeight()), 5 + (from.x + to.x) / 2, 5 + (from.y + to.y) / 2);
+        }
+        graphics2D.setStroke(originStroke);
+        g.setColor(color);
+    }
+
 
     private void enableAA(Graphics g){
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
@@ -220,6 +242,8 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         }
         dragged = null;
         movingTo = null;
+        view.revalidate();
+        view.repaint();
     }
 
 
@@ -232,7 +256,6 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
             view.repaint();
             g.drawLine(dragged.getLocation().x, dragged.getLocation().y, e.getX(), e.getY());
             movingTo = e.getPoint();
-
         }
     }
 

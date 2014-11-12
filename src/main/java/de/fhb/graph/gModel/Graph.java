@@ -8,12 +8,12 @@ import java.util.Observable;
 public class Graph extends Observable implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	HashSet<Vertex> vertices;
-	HashSet<Edge> edges;
-	AdjacencyList adjacencyList;
-	int actualVertexNumber;
-	boolean changed;
-    boolean weightedGraph;
+	private HashSet<Vertex> vertices;
+	private HashSet<Edge> edges;
+	private AdjacencyList adjacencyList;
+	private int actualVertexNumber;
+	private boolean changed;
+	private boolean weightedGraph;
 
 
     public Graph() {

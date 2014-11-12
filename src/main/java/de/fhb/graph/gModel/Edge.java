@@ -6,12 +6,12 @@ public class Edge implements Serializable {
 
 
 	private static final long serialVersionUID = 1L;
-	Vertex from;
-	Vertex to;
-	int weight;
-    int color;
-	boolean marker;
-	Graph g;
+	private Vertex from;
+	private Vertex to;
+	private int weight;
+	private int color;
+	private boolean marker;
+	private Graph g;
 	
 	public Edge(Vertex left, Vertex right, int weight, Graph g) {
 		super();

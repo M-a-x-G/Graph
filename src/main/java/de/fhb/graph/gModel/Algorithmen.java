@@ -1,8 +1,7 @@
 package de.fhb.graph.gModel;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Stack;
+import java.util.*;
+import java.util.stream.Collectors;
 
 
 public class Algorithmen {
@@ -45,5 +44,63 @@ public class Algorithmen {
 
 
 	}
+
+    public static HashSet<Edge> findSpanningTreeKruskal(Graph g){
+
+        HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
+        HashSet<Edge> result = new HashSet<>();
+
+        //Make up the priority queue and setup the comparator
+        PriorityQueue<Edge> queue = new PriorityQueue<Edge>(new Comparator<Edge>() {
+            @Override
+            public int compare(Edge o1, Edge o2) {
+
+
+                if(o1.getWeight() > o1.getWeight()){
+                    return 1;
+                } else if(o1.getWeight() < o1.getWeight()){
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+
+        // add all edges of the current graph to the sorted queue
+        queue.addAll(g.getEdges());
+
+        //create a component for every Vertex there is in the graph as this is the initial state of the algorithm.
+        for(Vertex vert : g.getVertices()){
+            HashSet<Vertex> tempSet = new HashSet<Vertex>();
+            tempSet.add(vert);
+            setOfComponents.add(tempSet);
+        }
+
+        for(int i = 0; i < queue.size() && !queue.isEmpty(); i++){
+            Edge currentEdge = queue.poll();
+            HashSet<Vertex> set1 = findSet(setOfComponents, currentEdge.getTo());
+            HashSet<Vertex> set2 = findSet(setOfComponents, currentEdge.getfrom());
+
+            if(set1 != set2){
+                set1.addAll(set2);
+                result.add(currentEdge);
+                setOfComponents.remove(set2);
+            }
+        }
+        return result;
+
+    }
+
+
+    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex){
+
+        for(HashSet<Vertex> verts : setOfComponents){
+            if(verts.contains(vertex)){
+                return verts;
+            }
+        }
+
+        return null;
+    }
 
 }

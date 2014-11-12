@@ -42,4 +42,8 @@ public class AdjacencyList extends HashMap<Vertex,HashSet<Edge>> {
 	    return result;
 	}
 
+	public HashSet<Edge> getEdgesOf(Vertex v){
+		return get(v);
+	}
+
 }

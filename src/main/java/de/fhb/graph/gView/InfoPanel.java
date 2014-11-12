@@ -7,6 +7,8 @@ import de.fhb.graph.utility.TextFieldDoc;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.*;
 
@@ -29,7 +31,7 @@ public class InfoPanel extends JPanel {
         setLayout(new GridBagLayout());
     }
 
-    public void VertexMarked(Vertex vertex){
+    public void vertexMarked(Vertex vertex){
         removeAll();
         textField1 = new JTextField();
         textField1.setText(vertex.getName());
@@ -50,7 +52,7 @@ public class InfoPanel extends JPanel {
 
     }
 
-    public void EdgeMarked(Edge edge) {
+    public void edgeMarked(Edge edge) {
         removeAll();
 
         textField1 = new JTextField(new TextFieldDoc(((short)3), 10), "", 1);
@@ -59,18 +61,36 @@ public class InfoPanel extends JPanel {
 
         label1.setText("Weight of Edge: ");
 
-        textField1.addActionListener(new ActionListener() {
+        textField1.addFocusListener(new FocusListener() {
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if(!textField1.getText().isEmpty()){
+                    edge.setWeight(Integer.parseInt(textField1.getText()));
+                }else{
+                    textField1.setText("0");
+                }
+            }
+        });
+
+        textField1.addActionListener(e -> {
+            if(!textField1.getText().isEmpty()){
                 edge.setWeight(Integer.parseInt(textField1.getText()));
+            }else{
+                textField1.setText("0");
             }
         });
 
         add(label1);
         add(textField1);
+        textField1.requestFocus();
     }
 
-    public void Unmarked(){
+    public void unmarked(){
         removeAll();
     }
 

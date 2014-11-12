@@ -12,18 +12,14 @@ public class AdjacencyList extends HashMap<Vertex,HashSet<Edge>> {
 		Vertex from = e.getfrom();
 		Vertex to = e.getTo();
 		HashSet<Edge> neighbours;
-		neighbours = (containsKey(from) ? get(from) : new HashSet<Edge>());
+		neighbours = (containsKey(from) ? get(from) : new HashSet<>());
 		neighbours.add(e);
 		this.put(from, neighbours);
-		if(from.getEdges() == null){
-			from.setEdges(neighbours);
-		}
-		neighbours = (containsKey(to) ? get(to) : new HashSet<Edge>());
+		from.setEdges(neighbours);
+		neighbours = (containsKey(to) ? get(to) : new HashSet<>());
 		neighbours.add(e);
 		this.put(to, neighbours);
-		if(to.getEdges() == null){
-			from.setEdges(neighbours);
-		}
+		to.setEdges(neighbours);
 	}
 	
 	public void removeEdge(Edge e){
@@ -32,7 +28,7 @@ public class AdjacencyList extends HashMap<Vertex,HashSet<Edge>> {
 	}
 	
 	public HashSet<Vertex> getNeighboursOf(Vertex v){
-	    HashSet<Vertex> result = new HashSet<Vertex>();
+	    HashSet<Vertex> result = new HashSet<>();
 
         if(get(v) != null){
 		    for (Edge e : get(v)){

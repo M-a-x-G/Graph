@@ -1,7 +1,10 @@
 package de.fhb.graph.gModel;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Comparator;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.PriorityQueue;
+import java.util.Stack;
 
 
 public class Algorithmen {
@@ -49,7 +52,8 @@ public class Algorithmen {
             Vertex root = graphVerticesIterator.next();
             root.setKey(0);
             queue.add(root);
-            for (Vertex vertex = graphVerticesIterator.next(); graphVerticesIterator.hasNext(); vertex = graphVerticesIterator.next()) {
+            while (graphVerticesIterator.hasNext()) {
+                Vertex vertex = graphVerticesIterator.next();
                 vertex.setKey(Integer.MAX_VALUE);
                 queue.add(vertex);
             }
@@ -57,6 +61,8 @@ public class Algorithmen {
             while (!queue.isEmpty()) {
                 Edge minEdge = null;
                 Vertex minVertex = queue.poll();
+//                System.out.println("Queue: " + queue.size() + " edges: " + minVertex.getEdges().size());
+
                 for (Edge edge : minVertex.getEdges()) {
                     Vertex selectedVertex;
                     if (edge.getfrom().equals(minVertex)) {
@@ -74,8 +80,8 @@ public class Algorithmen {
                     minEdge.setFat(true);
                 }
             }
-        }else{
-            throw new IllegalArgumentException("Bad idea to use this without weights");
+        } else {
+            throw new IllegalArgumentException("Bad idea to use mstPrimAlgorithm without weights");
         }
     }
     public static HashSet<Edge> findSpanningTreeKruskal(Graph g){

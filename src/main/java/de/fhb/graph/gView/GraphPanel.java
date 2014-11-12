@@ -6,7 +6,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
-import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -141,12 +140,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         if (markedVertex != null) {
             markedVertex.setMarked(false);
             markedVertex = null;
-            view.infoPanel.Unmarked();
+            view.infoPanel.unmarked();
         }
         if (markedEdge != null) {
             markedEdge.setMarker(false);
             markedEdge = null;
-            view.infoPanel.Unmarked();
+            view.infoPanel.unmarked();
 
         }
         markedVertex = null;
@@ -156,7 +155,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
             markedVertex = v;
             if (v != null){
                 v.setMarked(true);
-                view.infoPanel.VertexMarked(v);
+                view.infoPanel.vertexMarked(v);
 
             }
             else {
@@ -164,7 +163,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
                 markedEdge = edge;
                 if (edge != null){
                     edge.setMarker(true);
-                    view.infoPanel.EdgeMarked(edge);
+                    view.infoPanel.edgeMarked(edge);
                 }
             }
         }

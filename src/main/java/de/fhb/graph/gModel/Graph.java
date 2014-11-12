@@ -18,8 +18,8 @@ public class Graph extends Observable implements Serializable{
 
     public Graph() {
 		super();
-		this.vertices = new HashSet<Vertex>();
-		this.edges = new HashSet<Edge>();
+		this.vertices = new HashSet<>();
+		this.edges = new HashSet<>();
 		this.adjacencyList = new AdjacencyList();
 		actualVertexNumber = 0;
 		changed = false;
@@ -60,12 +60,12 @@ public class Graph extends Observable implements Serializable{
 
 	public void removeVertex(Vertex v){
 		vertices.remove(v);
-		HashSet<Edge> toRemove = new HashSet<Edge>();
+		HashSet<Edge> toRemove = new HashSet<>();
 		for (Edge e : edges)
 			if (e.meets(v)){
 				toRemove.add(e);
 				adjacencyList.removeEdge(e);
-			}	
+			}
 		edges.removeAll(toRemove);
 		setChanged();
 		notifyObservers();
@@ -111,7 +111,7 @@ public class Graph extends Observable implements Serializable{
 	}
 
 	public void mstKruskalAlgorithm(){
-		Algorithmen.findComponents(this);
+		Algorithmen.findSpanningTreeKruskal(this);
 		setChanged();
 		notifyObservers();
 

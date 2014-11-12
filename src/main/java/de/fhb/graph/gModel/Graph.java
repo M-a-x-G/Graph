@@ -109,7 +109,20 @@ public class Graph extends Observable implements Serializable{
 		notifyObservers();		
 		
 	}
-	
+
+	public void mstKruskalAlgorithm(){
+		Algorithmen.findComponents(this);
+		setChanged();
+		notifyObservers();
+
+	}
+
+	public void mstPrimAlgorith(){
+		Algorithmen.mstPrimAlgorithm(this);
+		setChanged();
+		notifyObservers();
+	}
+
 	public void resetNonPersistentProps(){
 		for (Vertex v : vertices){
             v.resetNonPersistentProps();

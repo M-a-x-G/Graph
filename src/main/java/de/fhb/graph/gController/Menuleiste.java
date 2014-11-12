@@ -193,6 +193,36 @@ public class Menuleiste extends JMenuBar {
         };
         algorithmsMenu.add(findComponentsAction);
 
+        /*
+		 * -------------- Algorithms Menu: Prim algorithm
+		 */
+        AbstractAction primAction = new AbstractAction() {
+            {
+                putValue(Action.NAME, "MSB -> Prim");
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                primAlgorithm();
+            }
+        };
+        algorithmsMenu.add(primAction);
+
+         /*
+		 * -------------- Algorithms Menu: Prim algorithm
+		 */
+        AbstractAction kruskalAction = new AbstractAction() {
+            {
+                putValue(Action.NAME, "MSB -> Kruskal");
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                kruskalAlgorithm();
+            }
+        };
+        algorithmsMenu.add(kruskalAction);
+
 
     }
 
@@ -210,6 +240,14 @@ public class Menuleiste extends JMenuBar {
 
     private void findComponents() {
         graph.findComponents();
+    }
+
+    private void primAlgorithm(){
+        graph.mstPrimAlgorith();
+    }
+
+    private void kruskalAlgorithm(){
+        graph.mstKruskalAlgorithm();
     }
 
     private void openFile() {

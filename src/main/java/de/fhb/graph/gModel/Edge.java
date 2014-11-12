@@ -11,23 +11,24 @@ public class Edge implements Serializable {
 	private int weight;
 	private int color;
 	private boolean marker;
-	private Graph g;
+	private boolean fat;
+	private Graph graph;
 	
-	public Edge(Vertex left, Vertex right, int weight, Graph g) {
+	public Edge(Vertex left, Vertex right, int weight, Graph graph) {
 		super();
 		this.from = left;
 		this.to = right;
 		this.weight = weight;
-		this.g = g;
+		this.graph = graph;
 		marker = false;
 	}
 
-	public Edge(Vertex left, Vertex right, Graph g) {
+	public Edge(Vertex left, Vertex right, Graph graph) {
 		super();
 		this.from = left;
 		this.to = right;
 		this.weight = 0;
-		this.g = g;
+		this.graph = graph;
 		marker = false;
 	}
 
@@ -53,7 +54,7 @@ public class Edge implements Serializable {
 
 	public void setWeight(int weight) {
 		this.weight = weight;
-		g.changed();
+		graph.changed();
 	}
 	
 	protected boolean meets(Vertex v){
@@ -62,6 +63,7 @@ public class Edge implements Serializable {
 
 	public void resetNonPersistentProps(){
 		marker = false;
+		fat = false;
 	}
 
 	public boolean isMarker() {
@@ -70,9 +72,15 @@ public class Edge implements Serializable {
 
 	public void setMarker(boolean marker) {
 		this.marker = marker;
-		g.changed();
+		graph.changed();
 	}
-	
 
+	public boolean isFat() {
+		return fat;
+	}
 
+	public void setFat(boolean fat) {
+		this.fat = fat;
+		graph.changed();
+	}
 }

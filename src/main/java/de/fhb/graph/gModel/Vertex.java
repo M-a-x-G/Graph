@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 
 
-public class Vertex implements Serializable {
+public class Vertex implements Serializable, Comparable<Vertex> {
 
     private static final long serialVersionUID = 1L;
     private String name;
@@ -14,6 +14,8 @@ public class Vertex implements Serializable {
     private int colour;
     private Graph graph;
     private HashSet<Edge> edges;
+    private int key;
+    private Vertex parent;
 
     public Vertex(String name, Point location, Graph graph) {
         super();
@@ -98,8 +100,38 @@ public class Vertex implements Serializable {
     public void setEdges(HashSet<Edge> edges) {
         if (edges != null && edges.size() > 0) {
             this.edges = edges;
-        }else{
+        } else {
             throw new IllegalArgumentException("This setter is not for initialisation");
+        }
+    }
+
+    public int getKey() {
+        return key;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
+    }
+
+    public Vertex getParent() {
+        return parent;
+    }
+
+    public void setParent(Vertex parent) {
+        this.parent = parent;
+    }
+
+    @Override
+    public int compareTo(Vertex input) {
+//        1 -> This > input
+//        0 -> this == input
+//        -1 -> this < iput
+        if (getKey() > input.getKey()) {
+            return 1;
+        } else if (getKey() < input.getKey()) {
+            return -1;
+        } else {
+            return 0;
         }
     }
 }

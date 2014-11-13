@@ -122,7 +122,7 @@ public class Menuleiste extends JMenuBar {
         editMenu.add(clearAction);
 
         /*
-		 * -------------- Edit Menu: Reset Graph
+		 * -------------- Edit Menu: Delete Graph
 		 */
         AbstractAction deleteGraphAction = new AbstractAction() {
             {

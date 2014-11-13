@@ -7,13 +7,13 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 
-public class Algorithmen {
+public class Algorithms {
 
     static int colour = 0;
 
     public static void findComponents(Graph g) {
         colour = 0;
-        Stack<Vertex> agenda = new Stack<Vertex>();
+        Stack<Vertex> agenda = new Stack<>();
         HashSet<Vertex> vertices = g.getVertices();
 
         if (vertices.isEmpty()) {
@@ -46,9 +46,32 @@ public class Algorithmen {
     }
 
     public static void mstPrimAlgorithm(Graph graph) {
+//        for (Vertex vertex : graph.getVertices()) {
+//            System.out.println(vertex.getName());
+//            if (vertex.getEdges() != null) {
+//                for (Edge edge : vertex.getEdges()) {
+//                    System.out.println("\tFrom: " + edge.getfrom() + "\tto: " + edge.getTo());
+//                }
+//            } else {
+//                System.out.println("Edges are null");
+//            }
+//        }
         if (graph.isWeightedGraph()) {
-            PriorityQueue<Vertex> queue = new PriorityQueue<>();
+
+            PriorityQueue<Vertex> queue = new PriorityQueue<>(new Comparator<Vertex>() {
+                @Override
+                public int compare(Vertex v1, Vertex v2) {
+                    if (v1.getKey() > v2.getKey()) {
+                        return 1;
+                    } else if (v1.getKey() < v2.getKey()) {
+                        return -1;
+                    } else {
+                        return 0;
+                    }
+                }
+            });
             Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
+            HashSet<Vertex> extractedVertices = new HashSet<>(graph.getVertices().size());
             Vertex root = graphVerticesIterator.next();
             root.setKey(0);
             queue.add(root);
@@ -59,11 +82,10 @@ public class Algorithmen {
             }
 
             while (!queue.isEmpty()) {
-                Edge minEdge = null;
                 Vertex minVertex = queue.poll();
-//                System.out.println("Queue: " + queue.size() + " edges: " + minVertex.getEdges().size());
-
-                for (Edge edge : minVertex.getEdges()) {
+                extractedVertices.add(minVertex);
+                System.out.println("min vertex: " + minVertex + " key " + minVertex.getKey());
+                for (Edge edge : graph.getEdgesOf(minVertex)) {
                     Vertex selectedVertex;
                     if (edge.getfrom().equals(minVertex)) {
                         selectedVertex = edge.getTo();
@@ -71,13 +93,23 @@ public class Algorithmen {
                         selectedVertex = edge.getfrom();
                     }
                     if (queue.contains(selectedVertex) && edge.getWeight() < selectedVertex.getKey()) {
-                        minEdge = edge;
                         selectedVertex.setKey(edge.getWeight());
                         selectedVertex.setParent(minVertex);
+                        System.out.println("\tfound min edge: " + edge.getfrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.getKey());
                     }
                 }
-                if (minEdge != null) {
-                    minEdge.setFat(true);
+            }
+
+            for (Vertex vertex : extractedVertices) {
+                Vertex parent = vertex.getParent();
+                Iterator<Edge> edgeIterator = graph.getEdgesOf(vertex).iterator();
+                boolean continueLoop = true;
+                while (continueLoop && edgeIterator.hasNext()) {
+                    Edge nextEdge = edgeIterator.next();
+                    if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getfrom().equals(parent))) {
+                        nextEdge.setFat(true);
+                        continueLoop = false;
+                    }
                 }
             }
         } else {

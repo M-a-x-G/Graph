@@ -1,10 +1,14 @@
 package de.fhb.graph.gModel;
 
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Stack;
+
+import de.fhb.graph.utility.FibonacciHeap;
+import de.fhb.graph.utility.INode;
 
 
 public class Algorithms {
@@ -45,68 +49,126 @@ public class Algorithms {
         }
     }
 
+//    public static void mstPrimAlgorithm(Graph graph) {
+////        for (Vertex vertex : graph.getVertices()) {
+////            System.out.println(vertex.getName());
+////            if (vertex.getEdges() != null) {
+////                for (Edge edge : vertex.getEdges()) {
+////                    System.out.println("\tFrom: " + edge.getFrom() + "\tto: " + edge.getTo());
+////                }
+////            } else {
+////                System.out.println("Edges are null");
+////            }
+////        }
+//        if (graph.isWeightedGraph()) {
+//
+//            PriorityQueue<Vertex> queue = new PriorityQueue<>(new Comparator<Vertex>() {
+//                @Override
+//                public int compare(Vertex v1, Vertex v2) {
+//                    if (v1.getKey() > v2.getKey()) {
+//                        return 1;
+//                    } else if (v1.getKey() < v2.getKey()) {
+//                        return -1;
+//                    } else {
+//                        return 0;
+//                    }
+//                }
+//            });
+//            Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
+//            HashSet<Vertex> extractedVertices = new HashSet<>(graph.getVertices().size());
+//            Vertex root = graphVerticesIterator.next();
+//            root.setKey(0);
+//            queue.add(root);
+//            while (graphVerticesIterator.hasNext()) {
+//                Vertex vertex = graphVerticesIterator.next();
+//                vertex.setKey(Integer.MAX_VALUE);
+//                queue.add(vertex);
+//            }
+//
+//            while (!queue.isEmpty()) {
+//                Vertex minVertex = queue.poll();
+//                extractedVertices.add(minVertex);
+//                System.out.println("min vertex: " + minVertex + " key " + minVertex.getKey());
+//                for (Edge edge : graph.getEdgesOf(minVertex)) {
+//                    Vertex selectedVertex;
+//                    if (edge.getFrom().equals(minVertex)) {
+//                        selectedVertex = edge.getTo();
+//                    } else {
+//                        selectedVertex = edge.getFrom();
+//                    }
+//                    if (queue.contains(selectedVertex) && edge.getWeight() < selectedVertex.getKey()) {
+//                        selectedVertex.setKey(edge.getWeight());
+//                        selectedVertex.setParent(minVertex);
+//                        System.out.println("\tfound min edge: " + edge.getFrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.getKey());
+//                    }
+//                }
+//            }
+//
+//            for (Vertex vertex : extractedVertices) {
+//                Vertex parent = vertex.getParent();
+//                Iterator<Edge> edgeIterator = graph.getEdgesOf(vertex).iterator();
+//                boolean continueLoop = true;
+//                while (continueLoop && edgeIterator.hasNext()) {
+//                    Edge nextEdge = edgeIterator.next();
+//                    if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
+//                        nextEdge.setFat(true);
+//                        continueLoop = false;
+//                    }
+//                }
+//            }
+//        } else {
+//            throw new IllegalArgumentException("Bad idea to use mstPrimAlgorithm without weights");
+//        }
+//    }
+
     public static void mstPrimAlgorithm(Graph graph) {
 //        for (Vertex vertex : graph.getVertices()) {
 //            System.out.println(vertex.getName());
 //            if (vertex.getEdges() != null) {
 //                for (Edge edge : vertex.getEdges()) {
-//                    System.out.println("\tFrom: " + edge.getfrom() + "\tto: " + edge.getTo());
+//                    System.out.println("\tFrom: " + edge.getFrom() + "\tto: " + edge.getTo());
 //                }
 //            } else {
 //                System.out.println("Edges are null");
 //            }
 //        }
         if (graph.isWeightedGraph()) {
-
-            PriorityQueue<Vertex> queue = new PriorityQueue<>(new Comparator<Vertex>() {
-                @Override
-                public int compare(Vertex v1, Vertex v2) {
-                    if (v1.getKey() > v2.getKey()) {
-                        return 1;
-                    } else if (v1.getKey() < v2.getKey()) {
-                        return -1;
-                    } else {
-                        return 0;
-                    }
-                }
-            });
+            FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
             Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
-            HashSet<Vertex> extractedVertices = new HashSet<>(graph.getVertices().size());
+//            HashSet<Vertex> extractedVertices = new HashSet<>(graph.getVertices().size());
+            HashMap<Vertex, INode<Vertex>> nodeMap = new HashMap<>();
             Vertex root = graphVerticesIterator.next();
-            root.setKey(0);
-            queue.add(root);
+            nodeMap.put(root, fibonacciHeap.insert(0, root));
+
             while (graphVerticesIterator.hasNext()) {
                 Vertex vertex = graphVerticesIterator.next();
-                vertex.setKey(Integer.MAX_VALUE);
-                queue.add(vertex);
+                nodeMap.put(vertex, fibonacciHeap.insert(Integer.MAX_VALUE, vertex));
             }
 
-            while (!queue.isEmpty()) {
-                Vertex minVertex = queue.poll();
-                extractedVertices.add(minVertex);
-                System.out.println("min vertex: " + minVertex + " key " + minVertex.getKey());
-                for (Edge edge : graph.getEdgesOf(minVertex)) {
-                    Vertex selectedVertex;
-                    if (edge.getfrom().equals(minVertex)) {
-                        selectedVertex = edge.getTo();
+            while (!fibonacciHeap.isEmpty()) {
+                INode<Vertex> minVertex = fibonacciHeap.extractMin();
+                for (Edge edge : graph.getEdgesOf(minVertex.value())) {
+                    INode<Vertex> selectedVertex;
+                    if (edge.getFrom().equals(minVertex.value())) {
+                        selectedVertex = nodeMap.get(edge.getTo());
                     } else {
-                        selectedVertex = edge.getfrom();
+                        selectedVertex = nodeMap.get(edge.getFrom());
                     }
-                    if (queue.contains(selectedVertex) && edge.getWeight() < selectedVertex.getKey()) {
-                        selectedVertex.setKey(edge.getWeight());
-                        selectedVertex.setParent(minVertex);
-                        System.out.println("\tfound min edge: " + edge.getfrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.getKey());
+                    if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
+                        fibonacciHeap.decreseKey(selectedVertex, edge.getWeight());
+                        selectedVertex.value().setParent(minVertex.value());
+                        System.out.println("\tfound min edge: " + edge.getFrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.key());
                     }
                 }
             }
 
-            for (Vertex vertex : extractedVertices) {
+            for (Vertex vertex : nodeMap.keySet()) {
                 Vertex parent = vertex.getParent();
                 Iterator<Edge> edgeIterator = graph.getEdgesOf(vertex).iterator();
                 boolean continueLoop = true;
                 while (continueLoop && edgeIterator.hasNext()) {
                     Edge nextEdge = edgeIterator.next();
-                    if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getfrom().equals(parent))) {
+                    if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
                         nextEdge.setFat(true);
                         continueLoop = false;
                     }
@@ -116,6 +178,8 @@ public class Algorithms {
             throw new IllegalArgumentException("Bad idea to use mstPrimAlgorithm without weights");
         }
     }
+
+
     public static HashSet<Edge> findSpanningTreeKruskal(Graph g){
 
         HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
@@ -151,7 +215,7 @@ public class Algorithms {
         for(int i = 0; i < queue.size() && !queue.isEmpty(); i++){
             Edge currentEdge = queue.poll();
             HashSet<Vertex> set1 = findSet(setOfComponents, currentEdge.getTo());
-            HashSet<Vertex> set2 = findSet(setOfComponents, currentEdge.getfrom());
+            HashSet<Vertex> set2 = findSet(setOfComponents, currentEdge.getFrom());
 
             if(set1 != set2){
                 set1.addAll(set2);

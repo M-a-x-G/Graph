@@ -32,7 +32,7 @@ public class Edge implements Serializable {
 		marker = false;
 	}
 
-	public Vertex getfrom() {
+	public Vertex getFrom() {
 		return from;
 	}
 

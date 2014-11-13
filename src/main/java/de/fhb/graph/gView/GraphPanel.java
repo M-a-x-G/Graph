@@ -102,7 +102,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         }
         enableAA(g);
         g.setColor(newColor);
-        Point from = e.getfrom().getLocation();
+        Point from = e.getFrom().getLocation();
         Point to = e.getTo().getLocation();
         g.drawLine(from.x, from.y, to.x, to.y);
         //display weights only if graph is a weighted one
@@ -215,7 +215,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     }
 
     private boolean meets(Edge e, Point p) {
-        Point q = e.getfrom().getLocation();
+        Point q = e.getFrom().getLocation();
         Point r = e.getTo().getLocation();
         Vector v = new Vector(q, p);
         Vector w = new Vector(q, r);

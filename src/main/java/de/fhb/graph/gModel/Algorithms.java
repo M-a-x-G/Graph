@@ -7,13 +7,13 @@ import java.util.PriorityQueue;
 import java.util.Stack;
 
 
-public class Algorithmen {
+public class Algorithms {
 
     static int colour = 0;
 
     public static void findComponents(Graph g) {
         colour = 0;
-        Stack<Vertex> agenda = new Stack<Vertex>();
+        Stack<Vertex> agenda = new Stack<>();
         HashSet<Vertex> vertices = g.getVertices();
 
         if (vertices.isEmpty()) {

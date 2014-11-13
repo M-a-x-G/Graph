@@ -110,21 +110,21 @@ public class Graph extends Observable implements Serializable{
 	public HashSet<Edge> getEdgesOf(Vertex vertex){return  adjacencyList.getEdgesOf(vertex);}
 
 	public void findComponents(){
-		Algorithmen.findComponents(this);
+		Algorithms.findComponents(this);
 		setChanged(); 
 		notifyObservers();		
 		
 	}
 
 	public void mstKruskalAlgorithm(){
-		Algorithmen.findSpanningTreeKruskal(this);
+		Algorithms.findSpanningTreeKruskal(this);
 		setChanged();
 		notifyObservers();
 
 	}
 
 	public void mstPrimAlgorith(){
-		Algorithmen.mstPrimAlgorithm(this);
+		Algorithms.mstPrimAlgorithm(this);
 		setChanged();
 		notifyObservers();
 	}

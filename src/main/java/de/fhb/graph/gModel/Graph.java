@@ -52,13 +52,16 @@ public class Graph extends Observable implements Serializable{
 	
 
     public void deleteGraph(){
-        vertices.clear();
+        resetNonPersistentProps();
+		actualVertexNumber = 0;
+		vertices.clear();
         edges.clear();
         setChanged();
         notifyObservers();
     }
 
 	public void removeVertex(Vertex v){
+		resetNonPersistentProps();
 		vertices.remove(v);
 		HashSet<Edge> toRemove = new HashSet<>();
 		for (Edge e : edges)
@@ -72,6 +75,7 @@ public class Graph extends Observable implements Serializable{
 	}
 	
 	public void removeEdge(Edge e){
+		resetNonPersistentProps();
 		edges.remove(e);
 		adjacencyList.removeEdge(e);
 		setChanged();
@@ -103,6 +107,8 @@ public class Graph extends Observable implements Serializable{
 		return adjacencyList.getNeighboursOf(v);
 	}
 	
+	public HashSet<Edge> getEdgesOf(Vertex vertex){return  adjacencyList.getEdgesOf(vertex);}
+
 	public void findComponents(){
 		Algorithmen.findComponents(this);
 		setChanged(); 

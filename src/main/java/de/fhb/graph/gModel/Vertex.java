@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.HashSet;
 
 
-public class Vertex implements Serializable, Comparable<Vertex> {
+public class Vertex implements Serializable{
 
     private static final long serialVersionUID = 1L;
     private String name;
@@ -25,14 +25,6 @@ public class Vertex implements Serializable, Comparable<Vertex> {
         this.marked = false;
         this.colour = 0;
         this.edges = null;
-    }
-
-    public void addEdge(Edge edge) {
-        if (edges != null) {
-            edges.add(edge);
-        } else {
-            throw new NullPointerException("The EdgeHashSet in this vertex was not initialized");
-        }
     }
 
     public int getColour() {
@@ -121,17 +113,4 @@ public class Vertex implements Serializable, Comparable<Vertex> {
         this.parent = parent;
     }
 
-    @Override
-    public int compareTo(Vertex input) {
-//        1 -> This > input
-//        0 -> this == input
-//        -1 -> this < iput
-        if (getKey() > input.getKey()) {
-            return 1;
-        } else if (getKey() < input.getKey()) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
 }

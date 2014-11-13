@@ -95,9 +95,9 @@ public class Algorithmen {
             public int compare(Edge o1, Edge o2) {
 
 
-                if(o1.getWeight() > o1.getWeight()){
+                if(o1.getWeight() > o2.getWeight()){
                     return 1;
-                } else if(o1.getWeight() < o1.getWeight()){
+                } else if(o1.getWeight() < o2.getWeight()){
                     return -1;
                 } else {
                     return 0;
@@ -107,6 +107,7 @@ public class Algorithmen {
 
         // add all edges of the current graph to the sorted queue
         queue.addAll(g.getEdges());
+
 
         //create a component for every Vertex there is in the graph as this is the initial state of the algorithm.
         for(Vertex vert : g.getVertices()){
@@ -123,6 +124,7 @@ public class Algorithmen {
             if(set1 != set2){
                 set1.addAll(set2);
                 result.add(currentEdge);
+                currentEdge.setFat(true);
                 setOfComponents.remove(set2);
             }
         }

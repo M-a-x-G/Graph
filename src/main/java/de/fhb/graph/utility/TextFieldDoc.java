@@ -9,6 +9,8 @@ package de.fhb.graph.utility;
  * Im anderen Teil wird die modulare Potenz einer Zahl berechnet.
  *
  */
+import de.fhb.graph.gModel.Edge;
+
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
@@ -19,6 +21,7 @@ public class TextFieldDoc extends PlainDocument {
     private static final long serialVersionUID = 3L;
     private short maxWert;
     private int basisIn;
+    private Edge edge;
 
     // ************* Konstruktor ********************************************
     /**
@@ -28,10 +31,11 @@ public class TextFieldDoc extends PlainDocument {
      * @basisIn Basis der eingegebenen Zahl
      */
 
-    public TextFieldDoc(short maxWert, int basisIn) {
+    public TextFieldDoc(short maxWert, int basisIn, Edge edge) {
         super();
         this.maxWert = maxWert;
         this.basisIn = basisIn;
+        this.edge = edge;
     }
 
     // ************* sonstige Methoden ****************************************
@@ -50,23 +54,34 @@ public class TextFieldDoc extends PlainDocument {
     public void insertString(int offs, String str, AttributeSet a) throws NumberFormatException {
         int help;
 
-        if (basisIn < 10) {
-            if (Character.isDigit(str.charAt(0)) && str.length() == 1) {
-                help = Character.digit(str.charAt(0),10);
-                if (help < basisIn) {
-                    if (super.getLength() + str.length() > maxWert) {
-                        str = str.substring(0, maxWert - super.getLength());
+
+        if (Character.isDigit(str.charAt(0)) && str.length() == 1) {
+            help = Character.digit(str.charAt(0),10);
+            if (help < basisIn) {
+                if (super.getLength() + str.length() > maxWert) {
+                    str = str.substring(0, maxWert - super.getLength());
+                }
+                try {
+                    super.insertString(offs, str, a);
+
+                    String text = super.getText(0, super.getLength());
+                    if(text != null && !text.equals("")){
+                        edge.setWeight(Integer.parseInt(text));
                     }
-                    try {
-                        super.insertString(offs, str, a);
-                    } catch (BadLocationException e) {
-                        e.printStackTrace();
-                    }
+
+                } catch (BadLocationException e) {
+                    e.printStackTrace();
                 }
             }
-        } else {
-            hoehererZahlenbereich(offs, str, a);
         }
+
+        
+
+//        if (basisIn < 10) {
+//
+//        } else {
+//            hoehererZahlenbereich(offs, str, a);
+//        }
     }
     /**
      * Methode zur Verarbeitung h�herer Zahlenbereiche.
@@ -79,31 +94,31 @@ public class TextFieldDoc extends PlainDocument {
      * @param a informationsn �ber die grafische Ausgabe
      *  @exception  Checked exeption wird geworfen, wenn auf eine ung�ltige Stelle im Dokument verwiesen wird
      */
-    private void hoehererZahlenbereich(int offs, String str, AttributeSet a){
-        char[] bereichArray = { 'a', 'b', 'c', 'd', 'e', 'f' };
-
-        if (Character.isLetter(str.charAt(0)) && str.length() == 1) {
-            for (int i = 0; i < (basisIn - 10); i++) {
-                if (bereichArray[i] == str.charAt(0) && str.length() == 1) {
-                    if (super.getLength() + str.length() > maxWert) {
-                        str = str.substring(0, maxWert - super.getLength());
-                    }
-                    try {
-                        super.insertString(offs, str, a);
-                    } catch (BadLocationException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        } else if (Character.isDigit(str.charAt(0)) && str.length() == 1) {
-            if (super.getLength() + str.length() > maxWert) {
-                str = str.substring(0, maxWert - super.getLength());
-            }
-            try {
-                super.insertString(offs, str, a);
-            } catch (BadLocationException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+//    private void hoehererZahlenbereich(int offs, String str, AttributeSet a){
+//        char[] bereichArray = { 'a', 'b', 'c', 'd', 'e', 'f' };
+//
+//        if (Character.isLetter(str.charAt(0)) && str.length() == 1) {
+//            for (int i = 0; i < (basisIn - 10); i++) {
+//                if (bereichArray[i] == str.charAt(0) && str.length() == 1) {
+//                    if (super.getLength() + str.length() > maxWert) {
+//                        str = str.substring(0, maxWert - super.getLength());
+//                    }
+//                    try {
+//                        super.insertString(offs, str, a);
+//                    } catch (BadLocationException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        } else if (Character.isDigit(str.charAt(0)) && str.length() == 1) {
+//            if (super.getLength() + str.length() > maxWert) {
+//                str = str.substring(0, maxWert - super.getLength());
+//            }
+//            try {
+//                super.insertString(offs, str, a);
+//            } catch (BadLocationException e) {
+//                e.printStackTrace();
+//            }
+//        }
+//    }
 }

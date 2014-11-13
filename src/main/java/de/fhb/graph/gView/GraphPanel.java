@@ -47,6 +47,9 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         init();
     }
 
+    public void setWeightedGraph(boolean isWeightedGraph){
+        graph.setWeightedGraph(isWeightedGraph);
+    }
 
     public void setMode(int mode) {
         this.mode = mode;

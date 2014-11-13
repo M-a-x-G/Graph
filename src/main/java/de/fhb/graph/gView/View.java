@@ -28,7 +28,7 @@ public class View extends JPanel  implements Observer{
 		graphPanel = new GraphPanel(graph,this);
 		this.add(graphPanel,BorderLayout.CENTER);
 		buttonPanel = new ButtonPanel(frame, graphPanel, this, graph);
-		this.add(buttonPanel, BorderLayout.NORTH);		
+		this.add(buttonPanel, BorderLayout.NORTH);
 		actionPanel = new ModePanel(this, graphPanel);
 		this.add(actionPanel,BorderLayout.WEST);
 

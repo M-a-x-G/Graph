@@ -2,7 +2,7 @@ package de.fhb.graph.gView;
 
 
 
-import de.fhb.graph.gController.Menuleiste;
+import de.fhb.graph.gController.MenulBar;
 import de.fhb.graph.gModel.Graph;
 
 import javax.swing.JFrame;
@@ -24,7 +24,7 @@ public class GFrame extends JFrame  {
 		getContentPane().add(view);
 		setSize(800,600);
 		setLocationRelativeTo(null);
-		this.setJMenuBar(new Menuleiste(this, view,g));
+		this.setJMenuBar(new MenulBar(this, view,g));
 //		pack();
 	}
 	

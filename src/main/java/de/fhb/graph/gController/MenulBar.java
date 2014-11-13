@@ -20,19 +20,19 @@ import de.fhb.graph.gView.GFrame;
 import de.fhb.graph.gView.View;
 
 
-public class Menuleiste extends JMenuBar {
+public class MenulBar extends JMenuBar {
 
     private static final long serialVersionUID = 1L;
 
-    Graph graph;
-    View view;
-    File file;
-    File directory;
-    GFrame frame;
+    private Graph graph;
+    private View view;
+    private File file;
+    private File directory;
+    private GFrame frame;
 
 
     @SuppressWarnings("serial")
-    public Menuleiste(GFrame frame, View view, Graph graph) {
+    public MenulBar(GFrame frame, View view, Graph graph) {
         super();
         this.graph = graph;
         this.view = view;
@@ -48,7 +48,7 @@ public class Menuleiste extends JMenuBar {
 		 */
         AbstractAction openAction = new AbstractAction() {
             {
-                putValue(Action.NAME, "öffnen");
+                putValue(Action.NAME, "Öffnen");
                 putValue(Action.ACCELERATOR_KEY, KeyStroke.getKeyStroke('O', InputEvent.CTRL_MASK));
             }
 
@@ -156,28 +156,6 @@ public class Menuleiste extends JMenuBar {
         };
         editMenu.add(resetAction);
 
-
-        /*
-		 * -------------- Edit Menu: Reset Graph
-		 */
-        AbstractAction graphIsWeightedAction = new AbstractAction() {
-            {
-                putValue(Action.NAME, "Weighted Graph?");
-                if(graph.isWeightedGraph())
-                {
-//                    putValue(Action.SMALL_ICON, );
-                }
-
-            }
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                toggleWeightedGraph();
-            }
-        };
-        editMenu.add(graphIsWeightedAction);
-
-
 		/*
 		 * -------------- Algorithms Menu: Find Components Action
 		 */
@@ -243,7 +221,7 @@ public class Menuleiste extends JMenuBar {
     }
 
     private void primAlgorithm(){
-        graph.mstPrimAlgorith();
+        graph.mstPrimAlgorithm();
     }
 
     private void kruskalAlgorithm(){
@@ -291,7 +269,7 @@ public class Menuleiste extends JMenuBar {
                     "Die Datei " + file + " existiert nicht", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
-                    "Fehler beim �ffnen der Datei " + file, "Error", JOptionPane.ERROR_MESSAGE);
+                    "Fehler beim öffnen der Datei " + file, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -320,17 +298,8 @@ public class Menuleiste extends JMenuBar {
             answer = JOptionPane.showConfirmDialog(this,
                     "Sollen Ihre Änderungen gespeichert werden");
         if (answer == JOptionPane.OK_OPTION) saveToFile();
-        if (answer == JOptionPane.NO_OPTION) {
-        }
-        ;
+//        if (answer == JOptionPane.NO_OPTION) {}
         if (answer == JOptionPane.CANCEL_OPTION) return;
         frame.dispose();
-    }
-
-    /**
-     * Toggles wether the graph is a weighted graph or not
-     */
-    private void toggleWeightedGraph(){
-        graph.setWeightedGraph(!graph.isWeightedGraph());
     }
 }

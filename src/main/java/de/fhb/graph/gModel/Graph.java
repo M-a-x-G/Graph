@@ -124,7 +124,7 @@ public class Graph extends Observable implements Serializable{
 
 	}
 
-	public void mstPrimAlgorith(){
+	public void mstPrimAlgorithm(){
 		resetNonPersistentProps();
 		Algorithms.mstPrimAlgorithm(this);
 		setChanged();

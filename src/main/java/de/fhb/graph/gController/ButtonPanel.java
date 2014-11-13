@@ -18,23 +18,23 @@ public class ButtonPanel extends JPanel implements ActionListener {
 
     final static String CLEAR = "Löschen";
 
-    Graph graph;
-    GraphPanel graphPanel;
-    View view;
-    File file;
-    File directory;
-    GFrame frame;
+//    private Graph graph;
+//    private GraphPanel graphPanel;
+//    private View view;
+//    private File file;
+//    private File directory;
+//    private GFrame frame;
 //	boolean changed;
 
 
     public ButtonPanel(GFrame frame, GraphPanel graphPanel, View view, Graph graph) {
-        this.frame = frame;
-        this.graphPanel = graphPanel;
-        this.graph = graph;
-        this.view = view;
-        directory = null;
+//        this.frame = frame;
+//        this.graphPanel = graphPanel;
+//        this.graph = graph;
+//        this.view = view;
+//        directory = null;
 
-        this.setLayout(new FlowLayout(FlowLayout.LEFT));
+//        this.setLayout(new FlowLayout(FlowLayout.LEFT));
 //		addButton(CLEAR);
 
     }
@@ -51,8 +51,8 @@ public class ButtonPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals(CLEAR))
-            graphPanel.delete();
+//        if (e.getActionCommand().equals(CLEAR))
+//            graphPanel.delete();
 
     }
 }

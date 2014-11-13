@@ -94,7 +94,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         Color newColor = (e.isMarker() ? Config.ACTIVEVERTEXCOLOUR : Config.EDGECOLOUR);
         Graphics2D graphics2D = (Graphics2D) g;
         Stroke originStroke = graphics2D.getStroke();
-        if(e.isFat()){
+        if (e.isFat()) {
             graphics2D.setStroke(new BasicStroke(4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
         }
         enableAA(g);
@@ -103,34 +103,36 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         Point to = e.getTo().getLocation();
         g.drawLine(from.x, from.y, to.x, to.y);
         //display weights only if graph is a weighted one
-        if(graph.isWeightedGraph()){
+        if (graph.isWeightedGraph()) {
             g.drawString(Integer.toString(e.getWeight()), 5 + (from.x + to.x) / 2, 5 + (from.y + to.y) / 2);
         }
         graphics2D.setStroke(originStroke);
         g.setColor(color);
     }
 
-    private void enableAA(Graphics g){
+    private void enableAA(Graphics g) {
         ((Graphics2D) g).setRenderingHint(RenderingHints.KEY_ANTIALIASING,
                 RenderingHints.VALUE_ANTIALIAS_ON);
     }
 
     public void delete() {
-        if (markedVertex != null){
+        if (markedVertex != null) {
             graph.removeVertex(markedVertex);
         }
-        if (markedEdge != null){
+        if (markedEdge != null) {
             graph.removeEdge(markedEdge);
         }
     }
 
 
-    public void deleteGraph(){
+    public void deleteGraph() {
         graph.deleteGraph();
     }
 
     private void addEdge(Vertex from, Vertex to) {
-        graph.addEdge(from, to);
+        if (!from.equals(to)) {
+            graph.addEdge(from, to);
+        }
     }
 
 
@@ -153,15 +155,14 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         if (mode == GraphPanel.MARK) {
             Vertex v = mouseMeetsVertex(mousePoint);
             markedVertex = v;
-            if (v != null){
+            if (v != null) {
                 v.setMarked(true);
                 view.infoPanel.vertexMarked(v);
 
-            }
-            else {
+            } else {
                 Edge edge = mouseMeetsEdge(mousePoint);
                 markedEdge = edge;
-                if (edge != null){
+                if (edge != null) {
                     edge.setMarker(true);
                     view.infoPanel.edgeMarked(edge);
                 }

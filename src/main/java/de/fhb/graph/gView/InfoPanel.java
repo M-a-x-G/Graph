@@ -53,9 +53,8 @@ public class InfoPanel extends JPanel {
     }
 
     public void edgeMarked(Edge edge) {
-        removeAll();
 
-        textField1 = new JTextField(new TextFieldDoc(((short)3), 10), "", 1);
+        textField1 = new JTextField(new TextFieldDoc(((short)3), 10, edge), "", 1);
         textField1.setText(Integer.toString(edge.getWeight()));
         textField1.setEditable(true);
 
@@ -68,7 +67,7 @@ public class InfoPanel extends JPanel {
             }
 
             @Override
-            public void focusLost(FocusEvent e) {
+            public void focusLost(FocusEvent e){
                 if(!textField1.getText().isEmpty()){
                     edge.setWeight(Integer.parseInt(textField1.getText()));
                 }else{
@@ -84,6 +83,7 @@ public class InfoPanel extends JPanel {
                 textField1.setText("0");
             }
         });
+        removeAll();
 
         add(label1);
         add(textField1);

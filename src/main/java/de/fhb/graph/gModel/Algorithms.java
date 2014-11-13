@@ -72,7 +72,7 @@ public class Algorithms {
                         selectedVertex = nodeMap.get(edge.getFrom());
                     }
                     if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
-                        fibonacciHeap.decreseKey(selectedVertex, edge.getWeight());
+                        fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
                         selectedVertex.value().setParent(minVertex.value());
                         System.out.println("\tfound min edge: " + edge.getFrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.key());
                     }

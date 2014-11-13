@@ -57,32 +57,34 @@ public class InfoPanel extends JPanel {
         textField1 = new JTextField(new TextFieldDoc(((short)3), 10, edge), "", 1);
         textField1.setText(Integer.toString(edge.getWeight()));
         textField1.setEditable(true);
+//        textField1.setPreferredSize(new Dimension(100, 20));
+        textField1.setColumns(3);
 
         label1.setText("Weight of Edge: ");
 
-        textField1.addFocusListener(new FocusListener() {
-            @Override
-            public void focusGained(FocusEvent e) {
-
-            }
-
-            @Override
-            public void focusLost(FocusEvent e){
-                if(!textField1.getText().isEmpty()){
-                    edge.setWeight(Integer.parseInt(textField1.getText()));
-                }else{
-                    textField1.setText("0");
-                }
-            }
-        });
-
-        textField1.addActionListener(e -> {
-            if(!textField1.getText().isEmpty()){
-                edge.setWeight(Integer.parseInt(textField1.getText()));
-            }else{
-                textField1.setText("0");
-            }
-        });
+//        textField1.addFocusListener(new FocusListener() {
+//            @Override
+//            public void focusGained(FocusEvent e) {
+//
+//            }
+//
+//            @Override
+//            public void focusLost(FocusEvent e){
+//                if(!textField1.getText().isEmpty()){
+//                    edge.setWeight(Integer.parseInt(textField1.getText()));
+//                }else{
+//                    textField1.setText("0");
+//                }
+//            }
+//        });
+//
+//        textField1.addActionListener(e -> {
+//            if(!textField1.getText().isEmpty()){
+//                edge.setWeight(Integer.parseInt(textField1.getText()));
+//            }else{
+//                textField1.setText("0");
+//            }
+//        });
         removeAll();
 
         add(label1);

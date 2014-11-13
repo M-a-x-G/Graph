@@ -51,6 +51,7 @@ public class TextFieldDoc extends PlainDocument {
      * @param a informationsn �ber die grafische Ausgabe
      * @exception  Checked exeption wird geworfen, wenn auf eine ung�ltige Stelle im Dokument verwiesen wird
      */
+    @Override
     public void insertString(int offs, String str, AttributeSet a) throws NumberFormatException {
         int help;
 
@@ -67,6 +68,7 @@ public class TextFieldDoc extends PlainDocument {
                     String text = super.getText(0, super.getLength());
                     if(text != null && !text.equals("")){
                         edge.setWeight(Integer.parseInt(text));
+
                     }
 
                 } catch (BadLocationException e) {
@@ -74,14 +76,22 @@ public class TextFieldDoc extends PlainDocument {
                 }
             }
         }
-
-        
-
 //        if (basisIn < 10) {
 //
 //        } else {
 //            hoehererZahlenbereich(offs, str, a);
 //        }
+    }
+
+    @Override
+    public void remove(int offs, int len) throws BadLocationException {
+        super.remove(offs, len);
+        String text = super.getText(0, super.getLength());
+        if(text != null && !text.equals("")){
+            this.edge.setWeight(Integer.parseInt(text));
+        } else {
+            this.edge.setWeight(0);
+        }
     }
     /**
      * Methode zur Verarbeitung h�herer Zahlenbereiche.

@@ -117,6 +117,7 @@ public class Graph extends Observable implements Serializable{
 	}
 
 	public void mstKruskalAlgorithm(){
+		resetNonPersistentProps();
 		Algorithms.findSpanningTreeKruskal(this);
 		setChanged();
 		notifyObservers();
@@ -124,6 +125,7 @@ public class Graph extends Observable implements Serializable{
 	}
 
 	public void mstPrimAlgorith(){
+		resetNonPersistentProps();
 		Algorithms.mstPrimAlgorithm(this);
 		setChanged();
 		notifyObservers();

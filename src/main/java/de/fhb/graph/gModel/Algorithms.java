@@ -190,7 +190,6 @@ public class Algorithms {
             @Override
             public int compare(Edge o1, Edge o2) {
 
-
                 if(o1.getWeight() > o2.getWeight()){
                     return 1;
                 } else if(o1.getWeight() < o2.getWeight()){
@@ -207,23 +206,30 @@ public class Algorithms {
 
         //create a component for every Vertex there is in the graph as this is the initial state of the algorithm.
         for(Vertex vert : g.getVertices()){
-            HashSet<Vertex> tempSet = new HashSet<Vertex>();
+            HashSet<Vertex> tempSet = new HashSet<>();
             tempSet.add(vert);
             setOfComponents.add(tempSet);
         }
-
-        for(int i = 0; i < queue.size() && !queue.isEmpty(); i++){
+        int initialQueueSize = queue.size();
+        for(int i = 0; i < initialQueueSize && !queue.isEmpty(); i++){
             Edge currentEdge = queue.poll();
             HashSet<Vertex> set1 = findSet(setOfComponents, currentEdge.getTo());
             HashSet<Vertex> set2 = findSet(setOfComponents, currentEdge.getFrom());
 
             if(set1 != set2){
-                set1.addAll(set2);
-                result.add(currentEdge);
-                currentEdge.setFat(true);
+                // i am forced to delete set1 here and add it later again
+                // as java duplicates it otherwise for an unknown reason.
+                setOfComponents.remove(set1);
                 setOfComponents.remove(set2);
+                set1.addAll(set2);
+                setOfComponents.add(set1);
+
+                result.add(currentEdge);
+                // set the chosen edges to be fat. So they shall be marked for the users sake.
+                currentEdge.setFat(true);
             }
         }
+        // the algorithm shall return the set of edges he assumes the safest.
         return result;
 
     }

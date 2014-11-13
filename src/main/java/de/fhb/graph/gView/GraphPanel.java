@@ -107,7 +107,11 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         g.drawLine(from.x, from.y, to.x, to.y);
         //display weights only if graph is a weighted one
         if (graph.isWeightedGraph()) {
-            g.drawString(Integer.toString(e.getWeight()), 5 + (from.x + to.x) / 2, 5 + (from.y + to.y) / 2);
+            String weight = Integer.toString(e.getWeight());
+            g.setColor(new Color(238 ,238 ,238));
+            g.fillRect((from.x + to.x) / 2, (from.y + to.y) / 2, weight.length() * 10, 15);
+            g.setColor(newColor);
+            g.drawString(weight, (weight.length() * 2) + (from.x + to.x) / 2, 10 + (from.y + to.y) / 2);
         }
         graphics2D.setStroke(originStroke);
         g.setColor(color);

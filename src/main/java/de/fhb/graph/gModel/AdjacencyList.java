@@ -15,11 +15,9 @@ public class AdjacencyList extends HashMap<Vertex,HashSet<Edge>> {
 		neighbours = (containsKey(from) ? get(from) : new HashSet<>());
 		neighbours.add(e);
 		this.put(from, neighbours);
-		from.setEdges(neighbours);
 		neighbours = (containsKey(to) ? get(to) : new HashSet<>());
 		neighbours.add(e);
 		this.put(to, neighbours);
-		to.setEdges(neighbours);
 	}
 	
 	public void removeEdge(Edge e){

@@ -13,7 +13,6 @@ public class Vertex implements Serializable{
     private boolean marked;
     private int colour;
     private Graph graph;
-    private HashSet<Edge> edges;
     private int key;
     private Vertex parent;
 
@@ -24,7 +23,6 @@ public class Vertex implements Serializable{
         this.graph = graph;
         this.marked = false;
         this.colour = 0;
-        this.edges = null;
     }
 
     public int getColour() {
@@ -77,24 +75,12 @@ public class Vertex implements Serializable{
     public void resetNonPersistentProps() {
         marked = false;
         colour = 0;
+        parent = null;
     }
 
     public HashSet<Vertex> getNeighbours() {
         return graph.getNeighboursOf(this);
 
-    }
-
-    public HashSet<Edge> getEdges() {
-        return edges;
-    }
-
-
-    public void setEdges(HashSet<Edge> edges) {
-        if (edges != null && edges.size() > 0) {
-            this.edges = edges;
-        } else {
-            throw new IllegalArgumentException("This setter is not for initialisation");
-        }
     }
 
     public int getKey() {

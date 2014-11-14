@@ -15,6 +15,12 @@ public class Algorithms {
 
     static int colour = 0;
 
+
+    /**
+     * Finds all components in a graph and recolors them.
+     * When more then 10 components belong to the graphn colors start to repeat.
+     * @param g
+     */
     public static void findComponents(Graph g) {
         colour = 0;
         Stack<Vertex> agenda = new Stack<>();
@@ -48,7 +54,12 @@ public class Algorithms {
             }
         }
     }
-
+    /**
+     * Finds the minimal spanning tree of a graph using Prims algorithm.
+     * Sets the "fat" flag of the found edges thus causing them
+     * to be drawn thicker than edges not belonging to the tree.
+     * @param graph
+     */
     public static void mstPrimAlgorithm(Graph graph) {
         if (graph.isWeightedGraph()) {
             FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
@@ -104,7 +115,13 @@ public class Algorithms {
     }
 
 
-    public static HashSet<Edge> mstKruskalAlgorithm(Graph g) {
+    /**
+     * Finds the minimal spanning tree of a graph using Kruskals algorithm.
+     * Returns all edges belonging to the found tree.
+     * Sets the "fat" flag of the found edges thus causing them
+     * to be drawn thicker than edges not belonging to the tree.
+     */
+    public static HashSet<Edge> mstKruskalAlgorithm(Graph g){
 
         HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
         HashSet<Edge> result = new HashSet<>();
@@ -124,7 +141,7 @@ public class Algorithms {
             }
         });
 
-        // add all edges of the current graph to the sorted queue
+        // add all edges of the current graph to the queue
         queue.addAll(g.getEdges());
 
 
@@ -153,13 +170,16 @@ public class Algorithms {
                 currentEdge.setFat(true);
             }
         }
-        // the algorithm shall return the set of edges he assumes the safest.
+        // the algorithm shall return the set of edges it assumes to be the safest.
         return result;
 
     }
 
-
-    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex) {
+    /**
+     * In a set of sets this methods finds the set in which the specified vertex is stored.
+     * If no set contains the vertex null is returned.
+     */
+    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex){
 
         for (HashSet<Vertex> verts : setOfComponents) {
             if (verts.contains(vertex)) {

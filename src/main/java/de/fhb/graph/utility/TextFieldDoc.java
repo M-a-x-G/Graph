@@ -24,41 +24,27 @@ public class TextFieldDoc extends PlainDocument {
     private Edge edge;
 
     // ************* Konstruktor ********************************************
-    /**
-     * Konstruktor
-     *
-     * @param maxWer maximale akzeptierte Anzahl der eingegebenen Zeichen
-     * @basisIn Basis der eingegebenen Zahl
-     */
 
-    public TextFieldDoc(short maxWert, int basisIn, Edge edge) {
+    public TextFieldDoc(short maxWert, Edge edge) {
         super();
         this.maxWert = maxWert;
-        this.basisIn = basisIn;
         this.edge = edge;
     }
 
     // ************* sonstige Methoden ****************************************
     /**
-     * Ist fuer das Ver�ndern des Textes zustaendig
-     * F�r Eingabe-Basen kleiner 10 begrenzt die Methode die eingebbaren Zahlen,
-     * kontrolliert hierf�r jede eingegebene Zahl einzeln und vergleicht sie mit der Basis.
-     * Ist sie gr��er oder gleich der Basis wird sie nicht akzeptiert.
-     * Durch die Implementierung dieser und der folgenden Methoden reduzieren wir das vorkommen von Exceptions
-     * und machen das Programm an sich weniger fehleranf�llig.
-     * @param offs Startposition im document
-     * @param str einzuf�gende Zeichenkette
-     * @param a informationsn �ber die grafische Ausgabe
-     * @exception  Checked exeption wird geworfen, wenn auf eine ung�ltige Stelle im Dokument verwiesen wird
+     * Filters all input of the textfield for everything except digits.
+     * The weight information of the selected edge is updated as soon as
+     * The user starts typing a number into the field.
      */
     @Override
     public void insertString(int offs, String str, AttributeSet a) throws NumberFormatException {
         int help;
 
 
-        if (Character.isDigit(str.charAt(0)) && str.length() == 1) {
+        if (Character.isDigit(str.charAt(0))) {
             help = Character.digit(str.charAt(0),10);
-            if (help < basisIn) {
+            if (help < 10) {
                 if (super.getLength() + str.length() > maxWert) {
                     str = str.substring(0, maxWert - super.getLength());
                 }
@@ -76,13 +62,12 @@ public class TextFieldDoc extends PlainDocument {
                 }
             }
         }
-//        if (basisIn < 10) {
-//
-//        } else {
-//            hoehererZahlenbereich(offs, str, a);
-//        }
     }
 
+    /**
+     * Updates the weight information stored in the currently selected edge
+     * as soon as the user deletes digits of the stored weight.
+     */
     @Override
     public void remove(int offs, int len) throws BadLocationException {
         super.remove(offs, len);
@@ -93,42 +78,4 @@ public class TextFieldDoc extends PlainDocument {
             this.edge.setWeight(0);
         }
     }
-    /**
-     * Methode zur Verarbeitung h�herer Zahlenbereiche.
-     * Bei der Eingabe eines Buchstabens wird dieser mit den Buchstaben in einem Char Array verglichen.
-     * Anhand der Basis l�sst sich errechnen, bis zu welcher Indexstelle verglichen werden darf.
-     * Ist der eingegebene Buchstabe unter denen, die bei der jeweiligen Basis im Char-Array adressiert werden d�rfen, so wird er ausgegeben.
-     * Wenn nicht, dann nicht.
-     * @param offs Startposition im document
-     * @param str einzuf�gende Zeichenkette
-     * @param a informationsn �ber die grafische Ausgabe
-     *  @exception  Checked exeption wird geworfen, wenn auf eine ung�ltige Stelle im Dokument verwiesen wird
-     */
-//    private void hoehererZahlenbereich(int offs, String str, AttributeSet a){
-//        char[] bereichArray = { 'a', 'b', 'c', 'd', 'e', 'f' };
-//
-//        if (Character.isLetter(str.charAt(0)) && str.length() == 1) {
-//            for (int i = 0; i < (basisIn - 10); i++) {
-//                if (bereichArray[i] == str.charAt(0) && str.length() == 1) {
-//                    if (super.getLength() + str.length() > maxWert) {
-//                        str = str.substring(0, maxWert - super.getLength());
-//                    }
-//                    try {
-//                        super.insertString(offs, str, a);
-//                    } catch (BadLocationException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }
-//        } else if (Character.isDigit(str.charAt(0)) && str.length() == 1) {
-//            if (super.getLength() + str.length() > maxWert) {
-//                str = str.substring(0, maxWert - super.getLength());
-//            }
-//            try {
-//                super.insertString(offs, str, a);
-//            } catch (BadLocationException e) {
-//                e.printStackTrace();
-//            }
-//        }
-//    }
 }

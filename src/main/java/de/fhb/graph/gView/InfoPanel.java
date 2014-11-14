@@ -54,7 +54,7 @@ public class InfoPanel extends JPanel {
 
     public void edgeMarked(Edge edge) {
 
-        textField1 = new JTextField(new TextFieldDoc(((short)3), 10, edge), "", 1);
+        textField1 = new JTextField(new TextFieldDoc(((short)3), edge), "", 1);
         textField1.setText(Integer.toString(edge.getWeight()));
         textField1.setEditable(true);
         textField1.setColumns(3);

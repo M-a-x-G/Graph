@@ -54,7 +54,6 @@ public class Algorithms {
             }
         }
     }
-
     /**
      * Finds the minimal spanning tree of a graph using Prims algorithm.
      * Sets the "fat" flag of the found edges thus causing them
@@ -65,7 +64,6 @@ public class Algorithms {
         if (graph.isWeightedGraph()) {
             FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
             Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
-//            HashSet<Vertex> extractedVertices = new HashSet<>(graph.getVertices().size());
             HashMap<Vertex, INode<Vertex>> nodeMap = new HashMap<>();
             Vertex root = graphVerticesIterator.next();
             nodeMap.put(root, fibonacciHeap.insert(0, root));
@@ -85,7 +83,7 @@ public class Algorithms {
                         selectedVertex = nodeMap.get(edge.getFrom());
                     }
                     if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
-                        fibonacciHeap.decreseKey(selectedVertex, edge.getWeight());
+                        fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
                         selectedVertex.value().setParent(minVertex.value());
                         System.out.println("\tfound min edge: " + edge.getFrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.key());
                     }
@@ -109,13 +107,15 @@ public class Algorithms {
         }
     }
 
+
     /**
      * Finds the minimal spanning tree of a graph using Kruskals algorithm.
      * Returns all edges belonging to the found tree.
      * Sets the "fat" flag of the found edges thus causing them
      * to be drawn thicker than edges not belonging to the tree.
      */
-    public static HashSet<Edge> findSpanningTreeKruskal(Graph g){
+    public static HashSet<Edge> mstKruskalAlgorithm(Graph g){
+
 
         HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
         HashSet<Edge> result = new HashSet<>();

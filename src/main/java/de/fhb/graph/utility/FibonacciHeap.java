@@ -1,6 +1,7 @@
 package de.fhb.graph.utility;
 
 /**
+ * Implementation of a FibonacciHeap from http://codexp.blogspot.de/2010/06/fibonacci-heap-in-java.html
  * @param <T> - data type to store
  */
 public class FibonacciHeap<T>{
@@ -108,15 +109,15 @@ public class FibonacciHeap<T>{
 	 * Note: if you pass reference to element that has previously been excluded via the
 	 * extract method no action is taken and the method returns
 	 * Runs in O(1) amortized time.
-	 * @param node heap element
+	 * @param n heap element
 	 * @param newVal the decrease amount
 	 * @throws ClassCastException if a node instance is passed different from the one 
 	 * returned from the insert method
 	 * @throws IllegalArgumentException if node instance if null or delta is a negative number
 	 */
-	public void decreseKey(INode<T> n, int newVal){
+	public void decreaseKey(INode<T> n, int newVal){
 		if(n == null){
-			throw new IllegalArgumentException("node cannot be null");
+			throw new IllegalArgumentException("Node cannot be null");
 		}else if(newVal > n.key()){
 			throw new IllegalArgumentException("The new value cannot be a greater number! You passed: " + newVal);
 		}

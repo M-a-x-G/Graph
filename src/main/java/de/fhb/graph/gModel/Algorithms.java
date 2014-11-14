@@ -64,30 +64,37 @@ public class Algorithms {
 
             while (!fibonacciHeap.isEmpty()) {
                 INode<Vertex> minVertex = fibonacciHeap.extractMin();
-                for (Edge edge : graph.getEdgesOf(minVertex.value())) {
-                    INode<Vertex> selectedVertex;
-                    if (edge.getFrom().equals(minVertex.value())) {
-                        selectedVertex = nodeMap.get(edge.getTo());
-                    } else {
-                        selectedVertex = nodeMap.get(edge.getFrom());
-                    }
-                    if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
-                        fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
-                        selectedVertex.value().setParent(minVertex.value());
-                        System.out.println("\tfound min edge: " + edge.getFrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.key());
+                HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(minVertex.value());
+                if (edgesToNeighbors != null) {
+                    for (Edge edge : edgesToNeighbors) {
+                        INode<Vertex> selectedVertex;
+                        if (edge.getFrom().equals(minVertex.value())) {
+                            selectedVertex = nodeMap.get(edge.getTo());
+                        } else {
+                            selectedVertex = nodeMap.get(edge.getFrom());
+                        }
+                        if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
+                            fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
+                            selectedVertex.value().setParent(minVertex.value());
+                            System.out.println("found min edge: " + edge.getFrom() + " to " + edge.getTo() + " set key of selected to: " + selectedVertex.key());
+                        }
                     }
                 }
             }
 
             for (Vertex vertex : nodeMap.keySet()) {
                 Vertex parent = vertex.getParent();
-                Iterator<Edge> edgeIterator = graph.getEdgesOf(vertex).iterator();
-                boolean continueLoop = true;
-                while (continueLoop && edgeIterator.hasNext()) {
-                    Edge nextEdge = edgeIterator.next();
-                    if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
-                        nextEdge.setFat(true);
-                        continueLoop = false;
+                HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(vertex);
+                Iterator<Edge> edgeIterator;
+                if (edgesToNeighbors != null) {
+                    edgeIterator = edgesToNeighbors.iterator();
+                    boolean continueLoop = true;
+                    while (continueLoop && edgeIterator.hasNext()) {
+                        Edge nextEdge = edgeIterator.next();
+                        if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
+                            nextEdge.setFat(true);
+                            continueLoop = false;
+                        }
                     }
                 }
             }
@@ -97,7 +104,7 @@ public class Algorithms {
     }
 
 
-    public static HashSet<Edge> mstKruskalAlgorithm(Graph g){
+    public static HashSet<Edge> mstKruskalAlgorithm(Graph g) {
 
         HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
         HashSet<Edge> result = new HashSet<>();
@@ -107,9 +114,9 @@ public class Algorithms {
             @Override
             public int compare(Edge o1, Edge o2) {
 
-                if(o1.getWeight() > o2.getWeight()){
+                if (o1.getWeight() > o2.getWeight()) {
                     return 1;
-                } else if(o1.getWeight() < o2.getWeight()){
+                } else if (o1.getWeight() < o2.getWeight()) {
                     return -1;
                 } else {
                     return 0;
@@ -122,18 +129,18 @@ public class Algorithms {
 
 
         //create a component for every Vertex there is in the graph as this is the initial state of the algorithm.
-        for(Vertex vert : g.getVertices()){
+        for (Vertex vert : g.getVertices()) {
             HashSet<Vertex> tempSet = new HashSet<>();
             tempSet.add(vert);
             setOfComponents.add(tempSet);
         }
         int initialQueueSize = queue.size();
-        for(int i = 0; i < initialQueueSize && !queue.isEmpty(); i++){
+        for (int i = 0; i < initialQueueSize && !queue.isEmpty(); i++) {
             Edge currentEdge = queue.poll();
             HashSet<Vertex> set1 = findSet(setOfComponents, currentEdge.getTo());
             HashSet<Vertex> set2 = findSet(setOfComponents, currentEdge.getFrom());
 
-            if(set1 != set2){
+            if (set1 != set2) {
                 // i am forced to delete set1 here and add it later again
                 // as java duplicates it otherwise for an unknown reason.
                 setOfComponents.remove(set1);
@@ -152,10 +159,10 @@ public class Algorithms {
     }
 
 
-    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex){
+    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex) {
 
-        for(HashSet<Vertex> verts : setOfComponents){
-            if(verts.contains(vertex)){
+        for (HashSet<Vertex> verts : setOfComponents) {
+            if (verts.contains(vertex)) {
                 return verts;
             }
         }

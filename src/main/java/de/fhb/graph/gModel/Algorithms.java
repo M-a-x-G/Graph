@@ -15,6 +15,12 @@ public class Algorithms {
 
     static int colour = 0;
 
+
+    /**
+     * Finds all components in a graph and recolors them.
+     * When more then 10 components belong to the graphn colors start to repeat.
+     * @param g
+     */
     public static void findComponents(Graph g) {
         colour = 0;
         Stack<Vertex> agenda = new Stack<>();
@@ -49,89 +55,13 @@ public class Algorithms {
         }
     }
 
-//    public static void mstPrimAlgorithm(Graph graph) {
-////        for (Vertex vertex : graph.getVertices()) {
-////            System.out.println(vertex.getName());
-////            if (vertex.getEdges() != null) {
-////                for (Edge edge : vertex.getEdges()) {
-////                    System.out.println("\tFrom: " + edge.getFrom() + "\tto: " + edge.getTo());
-////                }
-////            } else {
-////                System.out.println("Edges are null");
-////            }
-////        }
-//        if (graph.isWeightedGraph()) {
-//
-//            PriorityQueue<Vertex> queue = new PriorityQueue<>(new Comparator<Vertex>() {
-//                @Override
-//                public int compare(Vertex v1, Vertex v2) {
-//                    if (v1.getKey() > v2.getKey()) {
-//                        return 1;
-//                    } else if (v1.getKey() < v2.getKey()) {
-//                        return -1;
-//                    } else {
-//                        return 0;
-//                    }
-//                }
-//            });
-//            Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
-//            HashSet<Vertex> extractedVertices = new HashSet<>(graph.getVertices().size());
-//            Vertex root = graphVerticesIterator.next();
-//            root.setKey(0);
-//            queue.add(root);
-//            while (graphVerticesIterator.hasNext()) {
-//                Vertex vertex = graphVerticesIterator.next();
-//                vertex.setKey(Integer.MAX_VALUE);
-//                queue.add(vertex);
-//            }
-//
-//            while (!queue.isEmpty()) {
-//                Vertex minVertex = queue.poll();
-//                extractedVertices.add(minVertex);
-//                System.out.println("min vertex: " + minVertex + " key " + minVertex.getKey());
-//                for (Edge edge : graph.getEdgesOf(minVertex)) {
-//                    Vertex selectedVertex;
-//                    if (edge.getFrom().equals(minVertex)) {
-//                        selectedVertex = edge.getTo();
-//                    } else {
-//                        selectedVertex = edge.getFrom();
-//                    }
-//                    if (queue.contains(selectedVertex) && edge.getWeight() < selectedVertex.getKey()) {
-//                        selectedVertex.setKey(edge.getWeight());
-//                        selectedVertex.setParent(minVertex);
-//                        System.out.println("\tfound min edge: " + edge.getFrom() + " to  " + edge.getTo() + " weight: " + edge.getWeight() + " selected key " + selectedVertex.getKey());
-//                    }
-//                }
-//            }
-//
-//            for (Vertex vertex : extractedVertices) {
-//                Vertex parent = vertex.getParent();
-//                Iterator<Edge> edgeIterator = graph.getEdgesOf(vertex).iterator();
-//                boolean continueLoop = true;
-//                while (continueLoop && edgeIterator.hasNext()) {
-//                    Edge nextEdge = edgeIterator.next();
-//                    if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
-//                        nextEdge.setFat(true);
-//                        continueLoop = false;
-//                    }
-//                }
-//            }
-//        } else {
-//            throw new IllegalArgumentException("Bad idea to use mstPrimAlgorithm without weights");
-//        }
-//    }
-
+    /**
+     * Finds the minimal spanning tree of a graph using Prims algorithm.
+     * Sets the "fat" flag of the found edges thus causing them
+     * to be drawn thicker than edges not belonging to the tree.
+     * @param graph
+     */
     public static void mstPrimAlgorithm(Graph graph) {
-//        for (Vertex vertex : graph.getVertices()) {
-//            System.out.println(vertex.getName());
-//            if (vertex.getEdges() != null) {
-//                for (Edge edge : vertex.getEdges()) {
-//                    System.out.println("\tFrom: " + edge.getFrom() + "\tto: " + edge.getTo());
-//                }
-//            } else {
-//                System.out.println("Edges are null");
-//            }
-//        }
         if (graph.isWeightedGraph()) {
             FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
             Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
@@ -179,7 +109,12 @@ public class Algorithms {
         }
     }
 
-
+    /**
+     * Finds the minimal spanning tree of a graph using Kruskals algorithm.
+     * Returns all edges belonging to the found tree.
+     * Sets the "fat" flag of the found edges thus causing them
+     * to be drawn thicker than edges not belonging to the tree.
+     */
     public static HashSet<Edge> findSpanningTreeKruskal(Graph g){
 
         HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
@@ -200,7 +135,7 @@ public class Algorithms {
             }
         });
 
-        // add all edges of the current graph to the sorted queue
+        // add all edges of the current graph to the queue
         queue.addAll(g.getEdges());
 
 
@@ -229,12 +164,15 @@ public class Algorithms {
                 currentEdge.setFat(true);
             }
         }
-        // the algorithm shall return the set of edges he assumes the safest.
+        // the algorithm shall return the set of edges it assumes to be the safest.
         return result;
 
     }
 
-
+    /**
+     * In a set of sets this methods finds the set in which the specified vertex is stored.
+     * If no set contains the vertex null is returned.
+     */
     private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex){
 
         for(HashSet<Vertex> verts : setOfComponents){

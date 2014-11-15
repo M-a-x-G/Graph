@@ -60,7 +60,7 @@ public class Algorithms {
      * to be drawn thicker than edges not belonging to the tree.
      * @param graph
      */
-    public static void mstPrimAlgorithm(Graph graph) {
+    public static void mstPrimAlgorithm(Graph graph) throws IllegalArgumentException{
         if (graph.isWeightedGraph()) {
             FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
             Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
@@ -121,7 +121,11 @@ public class Algorithms {
      * Sets the "fat" flag of the found edges thus causing them
      * to be drawn thicker than edges not belonging to the tree.
      */
-    public static HashSet<Edge> mstKruskalAlgorithm(Graph g){
+    public static HashSet<Edge> mstKruskalAlgorithm(Graph g) throws IllegalArgumentException{
+
+        if(!g.isWeightedGraph()){
+            throw new IllegalArgumentException("Trying to calculate the mst you are. On a unweighted graph a failure it is.");
+        }
 
         HashSet<HashSet<Vertex>> setOfComponents = new HashSet<>(g.getVertices().size());
         HashSet<Edge> result = new HashSet<>();

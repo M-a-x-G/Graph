@@ -14,11 +14,11 @@ import javax.swing.JPanel;
 public class View extends JPanel  implements Observer{
 
 	private static final long serialVersionUID = 1L;
-	ButtonPanel buttonPanel;
-	ModePanel actionPanel;
-	InfoPanel infoPanel;
-	GraphPanel graphPanel;
-	Graph graph;
+	private ButtonPanel buttonPanel;
+    private ModePanel actionPanel;
+    private InfoPanel infoPanel;
+    private GraphPanel graphPanel;
+    private Graph graph;
 	
 	
 	public View(Graph graph, GFrame frame) {
@@ -63,4 +63,11 @@ public class View extends JPanel  implements Observer{
 		graphPanel.delete();
 	}
 
+    public GraphPanel getGraphPanel() {
+        return graphPanel;
+    }
+
+    public InfoPanel getInfoPanel() {
+        return infoPanel;
+    }
 }

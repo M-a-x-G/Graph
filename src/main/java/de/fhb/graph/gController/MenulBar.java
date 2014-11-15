@@ -221,11 +221,22 @@ public class MenulBar extends JMenuBar {
     }
 
     private void primAlgorithm(){
-        graph.mstPrimAlgorithm();
+        try{
+            graph.mstPrimAlgorithm();
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(view.getGraphPanel(), "Führe Algorithmen zum finden von minimalen " +
+                    "Spannbäumen auf gerichteten Graphen aus!", "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     private void kruskalAlgorithm(){
-        graph.mstKruskalAlgorithm();
+        try{
+            graph.mstKruskalAlgorithm();
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(view.getGraphPanel(), "Führe Algorithmen zum finden von minimalen " +
+                    "Spannbäumen auf gerichteten Graphen aus!", "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void openFile() {

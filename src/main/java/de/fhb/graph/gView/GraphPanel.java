@@ -149,12 +149,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         if (markedVertex != null) {
             markedVertex.setMarked(false);
             markedVertex = null;
-            view.infoPanel.unmarked();
+            view.getInfoPanel().unmarked();
         }
         if (markedEdge != null) {
             markedEdge.setMarker(false);
             markedEdge = null;
-            view.infoPanel.unmarked();
+            view.getInfoPanel().unmarked();
 
         }
         markedVertex = null;
@@ -164,14 +164,16 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
             markedVertex = v;
             if (v != null) {
                 v.setMarked(true);
-                view.infoPanel.vertexMarked(v);
+                view.getInfoPanel().vertexMarked(v);
 
             } else {
                 Edge edge = mouseMeetsEdge(mousePoint);
                 markedEdge = edge;
                 if (edge != null) {
                     edge.setMarker(true);
-                    view.infoPanel.edgeMarked(edge);
+                    if(graph.isWeightedGraph()){
+                        view.getInfoPanel().edgeMarked(edge);
+                    }
                 }
             }
         }

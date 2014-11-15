@@ -116,7 +116,7 @@ public class Graph extends Observable implements Serializable{
 		
 	}
 
-	public void mstKruskalAlgorithm(){
+	public void mstKruskalAlgorithm() throws IllegalArgumentException{
 		resetNonPersistentProps();
 		Algorithms.mstKruskalAlgorithm(this);
 		setChanged();
@@ -124,7 +124,7 @@ public class Graph extends Observable implements Serializable{
 
 	}
 
-	public void mstPrimAlgorithm(){
+	public void mstPrimAlgorithm() throws IllegalArgumentException{
 		resetNonPersistentProps();
 		Algorithms.mstPrimAlgorithm(this);
 		setChanged();

@@ -23,8 +23,8 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
 
     private static final long serialVersionUID = 1L;
 
-    Graph graph;
-    View view;
+    private Graph graph;
+    private View view;
 
     private Vertex dragged;
     private Vertex markedVertex;
@@ -47,8 +47,12 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         init();
     }
 
-    public void setWeightedGraph(boolean isWeightedGraph){
+    public void setWeightedGraph(boolean isWeightedGraph) {
+        graph.resetNonPersistentProps();
         graph.setWeightedGraph(isWeightedGraph);
+        if (!isWeightedGraph) {
+            view.getInfoPanel().unmarked();
+        }
     }
 
     public void setMode(int mode) {
@@ -108,7 +112,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
         //display weights only if graph is a weighted one
         if (graph.isWeightedGraph()) {
             String weight = Integer.toString(e.getWeight());
-            g.setColor(new Color(238 ,238 ,238));
+            g.setColor(new Color(238, 238, 238));
             g.fillRect((from.x + to.x) / 2, (from.y + to.y) / 2, weight.length() * 10, 15);
             g.setColor(newColor);
             g.drawString(weight, (weight.length() * 2) + (from.x + to.x) / 2, 10 + (from.y + to.y) / 2);
@@ -125,15 +129,18 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
     public void delete() {
         if (markedVertex != null) {
             graph.removeVertex(markedVertex);
+            view.getInfoPanel().unmarked();
         }
         if (markedEdge != null) {
             graph.removeEdge(markedEdge);
+            view.getInfoPanel().unmarked();
         }
     }
 
 
     public void deleteGraph() {
         graph.deleteGraph();
+        view.getInfoPanel().unmarked();
     }
 
     private void addEdge(Vertex from, Vertex to) {
@@ -171,7 +178,7 @@ public class GraphPanel extends JPanel implements MouseListener, MouseMotionList
                 markedEdge = edge;
                 if (edge != null) {
                     edge.setMarker(true);
-                    if(graph.isWeightedGraph()){
+                    if (graph.isWeightedGraph()) {
                         view.getInfoPanel().edgeMarked(edge);
                     }
                 }

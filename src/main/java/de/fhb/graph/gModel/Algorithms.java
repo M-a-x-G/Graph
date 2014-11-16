@@ -18,9 +18,7 @@ public class Algorithms {
 
     /**
      * Finds all components in a graph and recolors them.
-     * When more then 10 components belong to the graphn colors start to repeat.
-     *
-     * @param g
+     * When more then 10 components belong to the graph colors start to repeat.
      */
     public static void findComponents(Graph g) {
         colour = 0;
@@ -60,62 +58,56 @@ public class Algorithms {
      * Finds the minimal spanning tree of a graph using Prims algorithm.
      * Sets the "fat" flag of the found edges thus causing them
      * to be drawn thicker than edges not belonging to the tree.
-     *
-     * @param graph
      */
     public static void mstPrimAlgorithm(Graph graph) throws IllegalArgumentException {
-        if (graph.isWeightedGraph()) {
-            if (graph.getVertices().size() > 1) {
-                FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
-                Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
-                HashMap<Vertex, INode<Vertex>> nodeMap = new HashMap<>();
-                Vertex root = graphVerticesIterator.next();
-                nodeMap.put(root, fibonacciHeap.insert(0, root));
+        if (!graph.isWeightedGraph()) {
+            throw new IllegalArgumentException("Bad idea to use mstPrimAlgorithm without weights");
+        }
+        if (graph.getVertices().size() > 1) {
+            FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
+            Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
+            HashMap<Vertex, INode<Vertex>> nodeMap = new HashMap<>();
+            Vertex startVertex = graphVerticesIterator.next();
+            nodeMap.put(startVertex, fibonacciHeap.insert(0, startVertex));
 
-                while (graphVerticesIterator.hasNext()) {
-                    Vertex vertex = graphVerticesIterator.next();
-                    nodeMap.put(vertex, fibonacciHeap.insert(Integer.MAX_VALUE, vertex));
-                }
+            while (graphVerticesIterator.hasNext()) {
+                Vertex vertex = graphVerticesIterator.next();
+                nodeMap.put(vertex, fibonacciHeap.insert(Integer.MAX_VALUE, vertex));
+            }
 
-                while (!fibonacciHeap.isEmpty()) {
-                    INode<Vertex> minVertex = fibonacciHeap.extractMin();
-                    HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(minVertex.value());
-                    if (edgesToNeighbors != null) {
-                        for (Edge edge : edgesToNeighbors) {
-                            INode<Vertex> selectedVertex;
-                            if (edge.getFrom().equals(minVertex.value())) {
-                                selectedVertex = nodeMap.get(edge.getTo());
-                            } else {
-                                selectedVertex = nodeMap.get(edge.getFrom());
-                            }
-                            if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
-                                fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
-                                selectedVertex.value().setParent(minVertex.value());
-                                System.out.println("found min edge: " + edge.getFrom() + " to " + edge.getTo() + " set key of selected to: " + selectedVertex.key());
-                            }
-                        }
-                    }
-                }
-
-                for (Vertex vertex : nodeMap.keySet()) {
-                    Vertex parent = vertex.getParent();
-                    HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(vertex);
-                    Iterator<Edge> edgeIterator;
-                    if (edgesToNeighbors != null) {
-                        edgeIterator = edgesToNeighbors.iterator();
-                        boolean continueLoop = true;
-                        while (continueLoop && edgeIterator.hasNext()) {
-                            Edge nextEdge = edgeIterator.next();
-                            if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
-                                nextEdge.setFat(true);
-                                continueLoop = false;
-                            }
+            while (!fibonacciHeap.isEmpty()) {
+                INode<Vertex> minVertex = fibonacciHeap.extractMin();
+                HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(minVertex.value());
+                if (edgesToNeighbors != null) {
+                    for (Edge edge : edgesToNeighbors) {
+                        INode<Vertex> selectedVertex;
+                        selectedVertex = edge.getFrom().equals(minVertex.value()) ?
+                                nodeMap.get(edge.getTo()) : nodeMap.get(edge.getFrom());
+                        if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
+                            fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
+                            selectedVertex.value().setParent(minVertex.value());
                         }
                     }
                 }
             }
-        } else {
-            throw new IllegalArgumentException("Bad idea to use mstPrimAlgorithm without weights");
+
+            //Paint the MST
+            for (Vertex vertex : nodeMap.keySet()) {
+                Vertex parent = vertex.getParent();
+                HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(vertex);
+                Iterator<Edge> edgeIterator;
+                if (edgesToNeighbors != null) {
+                    edgeIterator = edgesToNeighbors.iterator();
+                    boolean continueLoop = true;
+                    while (continueLoop && edgeIterator.hasNext()) {
+                        Edge nextEdge = edgeIterator.next();
+                        if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
+                            nextEdge.setFat(true);
+                            continueLoop = false;
+                        }
+                    }
+                }
+            }
         }
     }
 
@@ -136,13 +128,13 @@ public class Algorithms {
         HashSet<Edge> result = new HashSet<>();
 
         //Make up the priority queue and setup the comparator
-        PriorityQueue<Edge> queue = new PriorityQueue<Edge>(new Comparator<Edge>() {
+        PriorityQueue<Edge> queue = new PriorityQueue<>(new Comparator<Edge>() {
             @Override
-            public int compare(Edge o1, Edge o2) {
+            public int compare(Edge edge1, Edge edge2) {
 
-                if (o1.getWeight() > o2.getWeight()) {
+                if (edge1.getWeight() > edge2.getWeight()) {
                     return 1;
-                } else if (o1.getWeight() < o2.getWeight()) {
+                } else if (edge1.getWeight() < edge2.getWeight()) {
                     return -1;
                 } else {
                     return 0;
@@ -155,9 +147,9 @@ public class Algorithms {
 
 
         //create a component for every Vertex there is in the graph as this is the initial state of the algorithm.
-        for (Vertex vert : g.getVertices()) {
+        for (Vertex vertex : g.getVertices()) {
             HashSet<Vertex> tempSet = new HashSet<>();
-            tempSet.add(vert);
+            tempSet.add(vertex);
             setOfComponents.add(tempSet);
         }
         int initialQueueSize = queue.size();
@@ -190,9 +182,9 @@ public class Algorithms {
      */
     private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex) {
 
-        for (HashSet<Vertex> verts : setOfComponents) {
-            if (verts.contains(vertex)) {
-                return verts;
+        for (HashSet<Vertex> selectedVertex : setOfComponents) {
+            if (selectedVertex.contains(vertex)) {
+                return selectedVertex;
             }
         }
 

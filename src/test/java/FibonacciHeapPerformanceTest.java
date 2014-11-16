@@ -1,16 +1,17 @@
-import heap.fibonacci.FibonacciHeap;
 
 import java.io.IOException;
 import java.util.PriorityQueue;
 
 import junit.framework.TestCase;
 
+import de.fhb.graph.utility.FibonacciHeap;
+
 public class FibonacciHeapPerformanceTest extends TestCase {
 	private final int TESTS = 1000000;
 	private final int EXTRACT_FREQUENCY = 5;
 
 	public void testFibAdd() throws IOException{
-		FibonacciHeap<Integer> fib = new FibonacciHeap<Integer>();
+		FibonacciHeap<Integer> fib = new FibonacciHeap<>();
 		long s,e;
 		s = System.currentTimeMillis();
 		for (int i = 0 ; i < TESTS ; i++) {
@@ -24,7 +25,7 @@ public class FibonacciHeapPerformanceTest extends TestCase {
 	}
 	
 	public void testBinAdd() throws IOException{
-		PriorityQueue<Integer> b = new PriorityQueue<Integer>();
+		PriorityQueue<Integer> b = new PriorityQueue<>();
 		long s,e;
 		s = System.currentTimeMillis();
 		for (int i = 0 ; i < TESTS ; i++) {

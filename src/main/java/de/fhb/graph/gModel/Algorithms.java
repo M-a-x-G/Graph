@@ -19,6 +19,7 @@ public class Algorithms {
     /**
      * Finds all components in a graph and recolors them.
      * When more then 10 components belong to the graphn colors start to repeat.
+     *
      * @param g
      */
     public static void findComponents(Graph g) {
@@ -54,57 +55,61 @@ public class Algorithms {
             }
         }
     }
+
     /**
      * Finds the minimal spanning tree of a graph using Prims algorithm.
      * Sets the "fat" flag of the found edges thus causing them
      * to be drawn thicker than edges not belonging to the tree.
+     *
      * @param graph
      */
-    public static void mstPrimAlgorithm(Graph graph) throws IllegalArgumentException{
+    public static void mstPrimAlgorithm(Graph graph) throws IllegalArgumentException {
         if (graph.isWeightedGraph()) {
-            FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
-            Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
-            HashMap<Vertex, INode<Vertex>> nodeMap = new HashMap<>();
-            Vertex root = graphVerticesIterator.next();
-            nodeMap.put(root, fibonacciHeap.insert(0, root));
+            if (graph.getVertices().size() > 1) {
+                FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
+                Iterator<Vertex> graphVerticesIterator = graph.getVertices().iterator();
+                HashMap<Vertex, INode<Vertex>> nodeMap = new HashMap<>();
+                Vertex root = graphVerticesIterator.next();
+                nodeMap.put(root, fibonacciHeap.insert(0, root));
 
-            while (graphVerticesIterator.hasNext()) {
-                Vertex vertex = graphVerticesIterator.next();
-                nodeMap.put(vertex, fibonacciHeap.insert(Integer.MAX_VALUE, vertex));
-            }
+                while (graphVerticesIterator.hasNext()) {
+                    Vertex vertex = graphVerticesIterator.next();
+                    nodeMap.put(vertex, fibonacciHeap.insert(Integer.MAX_VALUE, vertex));
+                }
 
-            while (!fibonacciHeap.isEmpty()) {
-                INode<Vertex> minVertex = fibonacciHeap.extractMin();
-                HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(minVertex.value());
-                if (edgesToNeighbors != null) {
-                    for (Edge edge : edgesToNeighbors) {
-                        INode<Vertex> selectedVertex;
-                        if (edge.getFrom().equals(minVertex.value())) {
-                            selectedVertex = nodeMap.get(edge.getTo());
-                        } else {
-                            selectedVertex = nodeMap.get(edge.getFrom());
-                        }
-                        if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
-                            fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
-                            selectedVertex.value().setParent(minVertex.value());
-                            System.out.println("found min edge: " + edge.getFrom() + " to " + edge.getTo() + " set key of selected to: " + selectedVertex.key());
+                while (!fibonacciHeap.isEmpty()) {
+                    INode<Vertex> minVertex = fibonacciHeap.extractMin();
+                    HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(minVertex.value());
+                    if (edgesToNeighbors != null) {
+                        for (Edge edge : edgesToNeighbors) {
+                            INode<Vertex> selectedVertex;
+                            if (edge.getFrom().equals(minVertex.value())) {
+                                selectedVertex = nodeMap.get(edge.getTo());
+                            } else {
+                                selectedVertex = nodeMap.get(edge.getFrom());
+                            }
+                            if (!fibonacciHeap.isExcluded(selectedVertex) && edge.getWeight() < selectedVertex.key()) {
+                                fibonacciHeap.decreaseKey(selectedVertex, edge.getWeight());
+                                selectedVertex.value().setParent(minVertex.value());
+                                System.out.println("found min edge: " + edge.getFrom() + " to " + edge.getTo() + " set key of selected to: " + selectedVertex.key());
+                            }
                         }
                     }
                 }
-            }
 
-            for (Vertex vertex : nodeMap.keySet()) {
-                Vertex parent = vertex.getParent();
-                HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(vertex);
-                Iterator<Edge> edgeIterator;
-                if (edgesToNeighbors != null) {
-                    edgeIterator = edgesToNeighbors.iterator();
-                    boolean continueLoop = true;
-                    while (continueLoop && edgeIterator.hasNext()) {
-                        Edge nextEdge = edgeIterator.next();
-                        if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
-                            nextEdge.setFat(true);
-                            continueLoop = false;
+                for (Vertex vertex : nodeMap.keySet()) {
+                    Vertex parent = vertex.getParent();
+                    HashSet<Edge> edgesToNeighbors = graph.getEdgesOf(vertex);
+                    Iterator<Edge> edgeIterator;
+                    if (edgesToNeighbors != null) {
+                        edgeIterator = edgesToNeighbors.iterator();
+                        boolean continueLoop = true;
+                        while (continueLoop && edgeIterator.hasNext()) {
+                            Edge nextEdge = edgeIterator.next();
+                            if (parent != null && (nextEdge.getTo().equals(parent) || nextEdge.getFrom().equals(parent))) {
+                                nextEdge.setFat(true);
+                                continueLoop = false;
+                            }
                         }
                     }
                 }
@@ -121,9 +126,9 @@ public class Algorithms {
      * Sets the "fat" flag of the found edges thus causing them
      * to be drawn thicker than edges not belonging to the tree.
      */
-    public static HashSet<Edge> mstKruskalAlgorithm(Graph g) throws IllegalArgumentException{
+    public static HashSet<Edge> mstKruskalAlgorithm(Graph g) throws IllegalArgumentException {
 
-        if(!g.isWeightedGraph()){
+        if (!g.isWeightedGraph()) {
             throw new IllegalArgumentException("Trying to calculate the mst you are. On a unweighted graph a failure it is.");
         }
 
@@ -183,7 +188,7 @@ public class Algorithms {
      * In a set of sets this methods finds the set in which the specified vertex is stored.
      * If no set contains the vertex null is returned.
      */
-    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex){
+    private static HashSet<Vertex> findSet(HashSet<HashSet<Vertex>> setOfComponents, Vertex vertex) {
 
         for (HashSet<Vertex> verts : setOfComponents) {
             if (verts.contains(vertex)) {

@@ -257,7 +257,7 @@ public class MenuBar extends JMenuBar {
                     "Die Datei " + file + " existiert nicht", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
-                    "Fehler beim �ffnen der Datei " + file, "Error", JOptionPane.ERROR_MESSAGE);
+                    "Fehler beim Öffnen der Datei " + file, "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(this,
                     "Die Datei " + file + " hat falsches Format", "Error", JOptionPane.ERROR_MESSAGE);

@@ -12,55 +12,46 @@ import de.fhb.graph.utility.TextFieldDoc;
 
 public class InfoPanel extends JPanel {
 
-
     private static final long serialVersionUID = 1L;
-
-    private JTextField textField1;
-    private JTextField textField2;
-    private JLabel label1;
-    private JLabel label2;
 
     public InfoPanel() {
         super();
-        label1 = new JLabel("");
-        label2 = new JLabel("");
         setLayout(new GridBagLayout());
     }
 
     public void vertexMarked(Vertex vertex) {
         removeAll();
-        textField1 = new JTextField();
-        textField1.setText(vertex.getName());
-        textField1.setEditable(false);
 
-        textField2 = new JTextField();
-        textField2.setEditable(false);
-        textField2.setText(" x:" + Integer.toString(vertex.getLocation().x) + ", y:" + Integer.toString(vertex.getLocation().y));
+        JTextField vertexNameField = new JTextField();
+        vertexNameField.setText(vertex.getName());
+        vertexNameField.setEditable(false);
 
+        JTextField positionField = new JTextField();
+        positionField.setEditable(false);
+        positionField.setText(" x:" + Integer.toString(vertex.getLocation().x) + ", y:" + Integer.toString(vertex.getLocation().y));
 
-        label1.setText("Node Name: ");
-        label2.setText("Coordinates in space: ");
+        JLabel vertexNameLabel = new JLabel("Vertex name: ");
+        JLabel positionLabel = new JLabel("Coordinates in space: ");
 
-        add(label1);
-        add(textField1);
-        add(label2);
-        add(textField2);
+        add(vertexNameLabel);
+        add(vertexNameField);
+        add(positionLabel);
+        add(positionField);
 
     }
 
     public void edgeMarked(Edge edge) {
-
-        textField1 = new JTextField(new TextFieldDoc(((short) 3), edge), "", 1);
-        textField1.setText(Integer.toString(edge.getWeight()));
-        textField1.setEditable(true);
-        textField1.setColumns(3);
-
-        label1.setText("Weight of Edge: ");
         removeAll();
+        JTextField edgeWeightField = new JTextField(new TextFieldDoc(((short) 3), edge), "", 1);
+        edgeWeightField.setText(Integer.toString(edge.getWeight()));
+        edgeWeightField.setEditable(true);
+        edgeWeightField.setColumns(3);
 
-        add(label1);
-        add(textField1);
-        textField1.requestFocus();
+        JLabel edgeWeightLabel = new JLabel("Weight of Edge: ");
+
+        add(edgeWeightLabel);
+        add(edgeWeightField);
+        edgeWeightField.requestFocus();
     }
 
     public void unmarked() {

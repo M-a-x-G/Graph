@@ -20,7 +20,7 @@ import de.fhb.graph.gView.GFrame;
 import de.fhb.graph.gView.View;
 
 
-public class MenulBar extends JMenuBar {
+public class MenuBar extends JMenuBar {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,10 +29,12 @@ public class MenulBar extends JMenuBar {
     private File file;
     private File directory;
     private GFrame frame;
+    private static final String errorMessageMST = "Algorithmen zum finden von minimalen " +
+            "Spannbäumen sind nur mit gewichteten Graphen möglich!";
 
 
     @SuppressWarnings("serial")
-    public MenulBar(GFrame frame, View view, Graph graph) {
+    public MenuBar(GFrame frame, View view, Graph graph) {
         super();
         this.graph = graph;
         this.view = view;
@@ -221,11 +223,20 @@ public class MenulBar extends JMenuBar {
     }
 
     private void primAlgorithm(){
-        graph.mstPrimAlgorithm();
+        try{
+            graph.mstPrimAlgorithm();
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(view.getGraphPanel(), errorMessageMST, "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
+
     }
 
     private void kruskalAlgorithm(){
-        graph.mstKruskalAlgorithm();
+        try{
+            graph.mstKruskalAlgorithm();
+        } catch (IllegalArgumentException e){
+            JOptionPane.showMessageDialog(view.getGraphPanel(), errorMessageMST, "Fehler", JOptionPane.ERROR_MESSAGE);
+        }
     }
 
     private void openFile() {
@@ -246,7 +257,7 @@ public class MenulBar extends JMenuBar {
                     "Die Datei " + file + " existiert nicht", "Error", JOptionPane.ERROR_MESSAGE);
         } catch (IOException e) {
             JOptionPane.showMessageDialog(this,
-                    "Fehler beim �ffnen der Datei " + file, "Error", JOptionPane.ERROR_MESSAGE);
+                    "Fehler beim Öffnen der Datei " + file, "Error", JOptionPane.ERROR_MESSAGE);
         } catch (ClassNotFoundException e) {
             JOptionPane.showMessageDialog(this,
                     "Die Datei " + file + " hat falsches Format", "Error", JOptionPane.ERROR_MESSAGE);

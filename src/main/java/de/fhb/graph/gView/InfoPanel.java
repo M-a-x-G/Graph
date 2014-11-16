@@ -1,37 +1,33 @@
 package de.fhb.graph.gView;
 
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
 import de.fhb.graph.gModel.Edge;
 import de.fhb.graph.gModel.Vertex;
 import de.fhb.graph.utility.TextFieldDoc;
 
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
-
-import javax.swing.*;
-
 public class InfoPanel extends JPanel {
 
 
-	private static final long serialVersionUID = 1L;
-	
-	private JTextField textField1;
+    private static final long serialVersionUID = 1L;
+
+    private JTextField textField1;
     private JTextField textField2;
     private JLabel label1;
     private JLabel label2;
 
-	public InfoPanel() {
-		super();
+    public InfoPanel() {
+        super();
         label1 = new JLabel("");
         label2 = new JLabel("");
-
-
         setLayout(new GridBagLayout());
     }
 
-    public void vertexMarked(Vertex vertex){
+    public void vertexMarked(Vertex vertex) {
         removeAll();
         textField1 = new JTextField();
         textField1.setText(vertex.getName());
@@ -54,7 +50,7 @@ public class InfoPanel extends JPanel {
 
     public void edgeMarked(Edge edge) {
 
-        textField1 = new JTextField(new TextFieldDoc(((short)3), 10, edge), "", 1);
+        textField1 = new JTextField(new TextFieldDoc(((short) 3), edge), "", 1);
         textField1.setText(Integer.toString(edge.getWeight()));
         textField1.setEditable(true);
         textField1.setColumns(3);
@@ -67,8 +63,7 @@ public class InfoPanel extends JPanel {
         textField1.requestFocus();
     }
 
-    public void unmarked(){
+    public void unmarked() {
         removeAll();
     }
-
 }

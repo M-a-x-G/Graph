@@ -20,7 +20,7 @@ import de.fhb.graph.gView.GFrame;
 import de.fhb.graph.gView.View;
 
 
-public class MenulBar extends JMenuBar {
+public class MenuBar extends JMenuBar {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,10 +29,12 @@ public class MenulBar extends JMenuBar {
     private File file;
     private File directory;
     private GFrame frame;
+    private static final String errorMessageMST = "Algorithmen zum finden von minimalen " +
+            "Spannbäumen sind nur mit gewichteten Graphen möglich!";
 
 
     @SuppressWarnings("serial")
-    public MenulBar(GFrame frame, View view, Graph graph) {
+    public MenuBar(GFrame frame, View view, Graph graph) {
         super();
         this.graph = graph;
         this.view = view;
@@ -224,8 +226,7 @@ public class MenulBar extends JMenuBar {
         try{
             graph.mstPrimAlgorithm();
         } catch (IllegalArgumentException e){
-            JOptionPane.showMessageDialog(view.getGraphPanel(), "Führe Algorithmen zum finden von minimalen " +
-                    "Spannbäumen auf gerichteten Graphen aus!", "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view.getGraphPanel(), errorMessageMST, "Fehler", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -234,8 +235,7 @@ public class MenulBar extends JMenuBar {
         try{
             graph.mstKruskalAlgorithm();
         } catch (IllegalArgumentException e){
-            JOptionPane.showMessageDialog(view.getGraphPanel(), "Führe Algorithmen zum finden von minimalen " +
-                    "Spannbäumen auf gerichteten Graphen aus!", "Fehler", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(view.getGraphPanel(), errorMessageMST, "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
 
